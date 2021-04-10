@@ -2,7 +2,7 @@ import time
 from flask import Flask, send_from_directory, request, make_response
 from server.users.users import get_login, get_profile_info
 import json
-from server.projects.projects import get_projects, get_project_info, create_project
+from server.projects.projects import *
 
 
 
@@ -47,6 +47,12 @@ def project_create_pls():
 def get_profile_inf():
     params = request.get_json(force=True)
     return make_response(get_profile_info(params['user_id']))
+
+@app.route('/api/profile/get/mentors', methods=['POST'])
+def get_mentors_inf():
+    params = request.get_json(force=True)
+    return make_response(get_mentors())
+
 
 
 if __name__ == '__main__':
