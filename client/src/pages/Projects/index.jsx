@@ -93,16 +93,11 @@ const Projects = () => {
     const [curProject, setCurProject] = useState(null);
     const [opening, setOpening] = useState(false);
     const [openDialog, setOpenDialog] = useState(false);
-    const closeDialog = () => {
-        setOpenDialog(false);
-
-        request(`/api/project/create`, 'POST', createForm);
-    };
     const [mentors, setMentors] = useState([]);
     const [createForm, updateCreateProjectForm] = useState({
         name: '',
         documents: '',
-        author: '',
+        userId: '',
         mentor: ''
     });
 
@@ -159,6 +154,13 @@ const Projects = () => {
         setMentors(data);
         setOpenDialog(true);
     }
+
+    const closeDialog = async () => {
+        setOpenDialog(false);
+
+        await request(`/api/project/create`, 'POST', {...createForm, userId: auth.userId});
+        getProjects();
+    };
 
     return (
         <div className={classes.root}>
@@ -221,14 +223,15 @@ const Projects = () => {
             titleAction: 'Создать'
         }}>
             <form className={classes.formCreate} noValidate autoComplete="off">
-                <TextField id="outlined-basic" label="Название проекта" variant="outlined" onChange={changeCreateFormHandler}/>
-                <TextField id="outlined-basic" label="Документы" variant="outlined" onChange={changeCreateFormHandler}/>
+                <TextField id="outlined-basic" name="name" label="Название проекта" variant="outlined" onChange={changeCreateFormHandler}/>
+                <TextField id="outlined-basic" name="documents" label="Документы" variant="outlined" onChange={changeCreateFormHandler}/>
                 <FormControl className={classes.formControl}>
-                    <InputLabel id="demo-simple-select-helper-label">{createForm.mentor || 'Age'}</InputLabel>
+                    <InputLabel id="demo-simple-select-helper-label">Наставник</InputLabel>
                     <Select
                     labelId="demo-simple-select-helper-label"
                     id="demo-simple-select-helper"
-                    value={createForm.mentor}
+                    name="mentor"
+                    value={mentors.find((mentor) => mentor.id === createForm.mentor)?.name}
                     onChange={changeCreateFormHandler}
                     >
                     {
