@@ -48,9 +48,9 @@ class Database:
         :param my_conn: Потом расскажу
         :return:
         """
-        data = self.SqlQuery(request, params, my_conn=my_conn)
+        data = self.SqlQuery(request, *params, my_conn=my_conn)
         return list(data[0].values())[0] if data else None
 
     def SqlQueryRecord(self, request, *params, my_conn=None):
-        res = self.SqlQuery(request, params, my_conn=my_conn)
+        res = self.SqlQuery(request, *params, my_conn=my_conn)
         return res[0] if res else res
