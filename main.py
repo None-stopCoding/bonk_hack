@@ -2,7 +2,7 @@ import time
 from flask import Flask, send_from_directory, request, make_response
 from server.users.users import get_login
 import json
-from server.projects.projects import get_projects, get_project_info
+from server.projects.projects import get_projects, get_project_info, create_project
 
 
 
@@ -34,6 +34,11 @@ def project_pls():
 def project_info_pls():
     params = request.get_json(force=True)
     return make_response(json.dumps(get_project_info(params['id'])))
+
+@app.route('/api/project/create', methods=["POST"])
+def project_create_pls():
+    params = request.get_json(force=True)
+    return make_response(json.dumps(create_project(params['name'], params['documents'], params['userId'], params['mentor'])))
 
 if __name__ == '__main__':
     app.run()

@@ -25,16 +25,19 @@ GET_PROJECT_BY_AUTHOR = GET_ALL_PROJECTS + """
 WHERE user_2.id = %s
 """
 
+
 CREATE_PROJECT = """
-INSERT INTO "Project" (name, status, documents, author) VALUES ('%s', 0, '%s', %s)
+INSERT INTO "Project" (name, documents, author, mentor) VALUES (%s, %s, (select "id_organizate" from "User-Organizate" where "id_user" = %s and "status" = 'Участник'), %s);
+insert into "User-Project" VALUES(%s, (select "id" from "Project" order by "id" DESC limit 1), 'Owner', 0)
 """
 
 DELETE_PROJECT = """
-DELETE FROM "Project" WHERE id = %s
+DELETE FROM "Project" WHERE id = %s;
+-- DELETE FROM "User-Project" WHERE id = %s;
 """
 
 CHANGE_PROJECT_STATUS = """
-UPDATE "Project" SET status = %s WHERE id = %s
+update "User-Project" set "status" = %s where "id_user" = %s and "id_project" = %s
 """
 
 GET_PROJECT_BY_STATUS = """
