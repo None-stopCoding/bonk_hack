@@ -24,9 +24,11 @@ WHERE "role" = 1 and U."id" = %s
 
 # залить студента на проект
 # params: [id студента, id проекта, роль]
-SET_PROJECT_TO_STUDENT = """
+ADD_STUDENT_TO_PROJECT = """
 insert into "User-Project" VALUES(%s, %s, %s)
 """
+
+
 
 # удалить студента с проекта
 # params: [id студента, id проекта]

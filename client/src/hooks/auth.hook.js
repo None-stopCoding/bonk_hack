@@ -8,16 +8,13 @@ export const useAuth = () => {
     const [role, setRole] = useState(null);
     const [ready, setReady] = useState(false);
 
-    const login = useCallback((jwtToken, id, role_) => {
-        const role__ = role_;
-        const userId_ = id;
-        // debugger
-        setRole(role__);
-        setUserId(userId_);
+    const login = useCallback((jwtToken, id, role) => {
+        setRole(role);
+        setUserId(id);
         setToken(jwtToken);
 
         localStorage.setItem(storageName, JSON.stringify({
-            userId: userId_, token: jwtToken, role: role__
+            userId: id, token: jwtToken, role: role
         }));
     }, []);
 
