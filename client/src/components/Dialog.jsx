@@ -52,7 +52,7 @@ const DialogActions = withStyles((theme) => ({
 export default function CustomizedDialogs({ open, close, title, titleAction, children }) {
   return (
     <div>
-      <Dialog onClose={close} aria-labelledby="customized-dialog-title" open={open}>
+      <Dialog aria-labelledby="customized-dialog-title" open={open}>
         <DialogTitle id="customized-dialog-title" onClose={close}>
           {title}
         </DialogTitle>

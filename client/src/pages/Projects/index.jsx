@@ -83,6 +83,13 @@ const useStyles = makeStyles((theme) => ({
     }
   }));
 
+const defaultCreateForm = {
+    name: '',
+    documents: '',
+    userId: '',
+    mentor: ''
+};
+
 const Projects = () => {
     const [value, setValue] = useState(0);
     const auth = useContext(AuthContext);
@@ -94,12 +101,7 @@ const Projects = () => {
     const [opening, setOpening] = useState(false);
     const [openDialog, setOpenDialog] = useState(false);
     const [mentors, setMentors] = useState([]);
-    const [createForm, updateCreateProjectForm] = useState({
-        name: '',
-        documents: '',
-        userId: '',
-        mentor: ''
-    });
+    const [createForm, updateCreateProjectForm] = useState(defaultCreateForm);
 
     const changeCreateFormHandler = event => {
 		updateCreateProjectForm({ ...createForm, [event.target.name]: event.target.value })
@@ -160,6 +162,7 @@ const Projects = () => {
 
         await request(`/api/project/create`, 'POST', {...createForm, userId: auth.userId});
         getProjects();
+        updateCreateProjectForm(defaultCreateForm);
     };
 
     return (
