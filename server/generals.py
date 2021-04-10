@@ -5,7 +5,7 @@ class Database:
     def __init__(self, clientid=None):
         self.clientid = clientid
         self.conn = pg.connect(
-            user='tatfezxgvgaefs',
+            user='viugovpuiwelrt',
             password='18355cf6b767ef1f55772b699bfd2f5417f521efc42ea9ce36e68ecdddd4c74d',
             host='ec2-54-247-158-179.eu-west-1.compute.amazonaws.com',
             port=5432,
