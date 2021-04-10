@@ -3,7 +3,7 @@
 # получить всех студентов
 # params: NO PARAMS
 GET_STUDENTS_ALL = """
-SELECT U."name", U."surname", U."second_name", O."name" FROM 
+SELECT U."name" name_user, U."surname", U."second_name", O."name" name_org FROM 
 "User" AS U INNER JOIN "Organizate" AS O
 ON U.id = (SELECT UO.id_user FROM "User-Organizate" AS UO WHERE UO.id_user = U.id and UO.id_organizate = O.id) 
 and O.id = (SELECT UO.id_organizate FROM "User-Organizate" AS UO WHERE UO.id_user = U.id and UO.id_organizate = O.id) 

@@ -1,6 +1,6 @@
 import React, {useContext, useEffect, useState} from 'react';
 import {AuthContext} from '../../context/AuthContext';
-import "./project.css"
+import "./profile.css"
 import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
 import {useHttp} from "../../hooks/http.hook";

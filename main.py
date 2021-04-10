@@ -54,7 +54,7 @@ def get_mentors_inf():
     return make_response(json.dumps(get_mentors()))
 
 @app.route('/api/students/all', methods=["POST"])
-def project_pls():
+def get_students_all():
     params = request.get_json(force=True)
     return make_response(json.dumps(get_all_students()))
 

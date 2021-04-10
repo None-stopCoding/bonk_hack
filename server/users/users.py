@@ -1,5 +1,5 @@
 from server.users.templates import (AUTHORIZE_BY_LOGIN, ADD_STUDENT_TO_PROJECT, GET_INFO_FOR_PROFILE,
-                                    GET_COMPETITIONS_BY_ID)
+                                    GET_COMPETITIONS_BY_ID, GET_STUDENTS_ALL)
 from server.generals import Database
 import uuid
 
@@ -12,8 +12,8 @@ def get_login(login, password):
     return auth
 
 
-def add_users_to_project(user_id, project_id,  role):
-    return Database().SqlQuery(ADD_STUDENT_TO_PROJECT, user_id, project_id,  role)
+def add_users_to_project(user_id, project_id, role):
+    return Database().SqlQuery(ADD_STUDENT_TO_PROJECT, user_id, project_id, role)
 
 
 def get_profile_info(user_id):
@@ -27,4 +27,4 @@ def get_competitions_by_id(user_id):
 
 
 def get_all_students():
-     return Database().SqlQuery(GET_STUDENTS_ALL)
+    return Database().SqlQuery(GET_STUDENTS_ALL)
