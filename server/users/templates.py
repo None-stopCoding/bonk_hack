@@ -52,7 +52,7 @@ AUTHORIZE_BY_LOGIN = """
 SELECT U."id", R."name" AS role FROM 
 "User" AS U inner join "Role" AS R
 ON U."role" = R."id"
-where "login" = $s and "password" = %s
+where "login" = %s and "password" = %s
 """
 
 
