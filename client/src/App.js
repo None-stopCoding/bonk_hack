@@ -20,7 +20,6 @@ const useStyles = makeStyles((theme) => ({
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
     }),
-    marginRight: -drawerWidth,
   },
   contentShift: {
     transition: theme.transitions.create('margin', {
