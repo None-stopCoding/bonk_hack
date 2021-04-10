@@ -17,7 +17,7 @@ INNER JOIN "User" user_2 ON user_2.id = project.author
 """
 
 GET_PROJECT_BY_USER = GET_ALL_PROJECTS + """
-WHERE user_ = %s
+WHERE user_.id = %s
 """
 
 

@@ -24,7 +24,7 @@ def login_pls():
     return make_response(get_login(params['login'], params['password']))
 
 
-@app.route('/api/projects', methods=["GET"])
+@app.route('/api/projects', methods=["POST"])
 def project_pls():
     params = request.get_json(force=True)
     return make_response(get_projects(params['userId'], params['status']))
