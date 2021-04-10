@@ -21,7 +21,7 @@ const PersonalInformation = () => {
 
     useEffect(() => {
         getPersonalInfo();
-    })
+    }, []);
 
     const getCompetence = () => {
         let listCompetence = [];
