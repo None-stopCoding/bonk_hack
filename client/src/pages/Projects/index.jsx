@@ -16,6 +16,13 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 
+
+import InputLabel from '@material-ui/core/InputLabel';
+import MenuItem from '@material-ui/core/MenuItem';
+import FormHelperText from '@material-ui/core/FormHelperText';
+import FormControl from '@material-ui/core/FormControl';
+import Select from '@material-ui/core/Select';
+
 import Dialog from './../../components/Dialog';
 
 import './index.css';
@@ -70,6 +77,9 @@ const useStyles = makeStyles((theme) => ({
         height: 74,
         fontSize: 16,
         marginLeft: 300
+    },
+    formCreate: {
+        flexDirection: 'column'
     }
   }));
 
@@ -85,7 +95,10 @@ const Projects = () => {
     const [openDialog, setOpenDialog] = useState(false);
     const closeDialog = () => {
         setOpenDialog(false);
+
+        request(`/api/project/create`, 'POST', createForm);
     };
+    const [mentors, setMentors] = useState([]);
     const [createForm, updateCreateProjectForm] = useState({
         name: '',
         documents: '',
@@ -141,7 +154,9 @@ const Projects = () => {
     }
 
 
-    const createProject = () => {
+    const createProject = async () => {
+        const data = await request(`/api/profile/get/mentors`, 'POST', {});
+        setMentors(data);
         setOpenDialog(true);
     }
 
@@ -205,11 +220,23 @@ const Projects = () => {
             title: 'Создание проекта',
             titleAction: 'Создать'
         }}>
-            <form className={classes.root} noValidate autoComplete="off">
+            <form className={classes.formCreate} noValidate autoComplete="off">
                 <TextField id="outlined-basic" label="Название проекта" variant="outlined" onChange={changeCreateFormHandler}/>
-                <TextField id="outlined-basic" label="Название проекта" variant="outlined" onChange={changeCreateFormHandler}/>
-                <TextField id="outlined-basic" label="Название проекта" variant="outlined" onChange={changeCreateFormHandler}/>
-                <TextField id="outlined-basic" label="Название проекта" variant="outlined" onChange={changeCreateFormHandler}/>
+                <TextField id="outlined-basic" label="Документы" variant="outlined" onChange={changeCreateFormHandler}/>
+                <FormControl className={classes.formControl}>
+                    <InputLabel id="demo-simple-select-helper-label">{createForm.mentor || 'Age'}</InputLabel>
+                    <Select
+                    labelId="demo-simple-select-helper-label"
+                    id="demo-simple-select-helper"
+                    value={createForm.mentor}
+                    onChange={changeCreateFormHandler}
+                    >
+                    {
+                        mentors.map((item, index) => <MenuItem value={item.id} key={index}>{`${item.surname} ${item.name} ${item.second_name}`}</MenuItem>)
+                    }
+                    </Select>
+                    <FormHelperText>Выберите наставника проекта</FormHelperText>
+                </FormControl>
             </form>
         </Dialog>
         </div>

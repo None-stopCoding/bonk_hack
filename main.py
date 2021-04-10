@@ -46,12 +46,12 @@ def project_create_pls():
 @app.route('/api/profile/get', methods=['POST'])
 def get_profile_inf():
     params = request.get_json(force=True)
-    return make_response(get_profile_info(params['user_id']))
+    return make_response(json.dumps(get_profile_info(params['user_id'])))
 
 @app.route('/api/profile/get/mentors', methods=['POST'])
 def get_mentors_inf():
     params = request.get_json(force=True)
-    return make_response(get_mentors())
+    return make_response(json.dumps(get_mentors()))
 
 
 
