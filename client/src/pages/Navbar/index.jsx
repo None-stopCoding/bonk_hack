@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import clsx from 'clsx';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
@@ -77,9 +77,21 @@ const Navbar = ({ open, setOpen }) => {
     setOpen(true);
   };
 
+  const getMenuItemsByRole = () => {
+    switch (auth.role) {
+      case 'Student': changeMenu(['Профиль', 'Проекты']); break;
+      case 'Project manager': changeMenu(['Профиль', 'Проекты', 'Студенты']); break;
+      case 'Mentor': changeMenu(['Профиль', 'Проекты', 'Студенты']); break;
+    }
+  }
+
   const handleDrawerClose = () => {
     setOpen(false);
   };
+
+  useEffect(() => {
+    // getMenuItemsByRole();
+  }, []);
 
   const menuActivated = (event) => {
     let path = 'profile';

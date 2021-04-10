@@ -121,3 +121,56 @@ mark {
 .dark-color {
     color: #20247b;
 }
+
+/* Projects */
+.fresh-table{
+    margin-top: 45px;
+    box-shadow: -15px 27px 69px rgba(0,0,0,.20);
+    margin-bottom: 50px;
+    width: 95%;
+}
+.fresh-table.full-screen-table{
+    margin-top: 0;
+}
+
+#fresh-table thead th, td, tr{
+    text-align: center;
+}
+
+
+.description{
+    margin-top: 60px;
+    text-align: center;
+}
+.description-footer{
+    margin-bottom: 20px;
+}
+
+.ct-heart{
+    color: #F74933;
+}
+.description-footer p{
+    text-align: center;
+    color: #eeeeee;
+    margin-top: 100px;
+}
+.description-footer a{
+    color: #FFFFFF;
+}
+
+.description-footer .social-area{
+    margin: 0 auto;
+}
+.description-footer > div{
+    display: inline-block;
+}
+
+h2{
+    font-size: 28px;
+}
+h1{
+    font-size: 38px;
+}
+h1 small{
+    color: #EEE;
+}

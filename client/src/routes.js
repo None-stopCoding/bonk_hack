@@ -18,7 +18,7 @@ export const useRoutes = isAuthenticated => {
                 <Route path="/students">
                     <Students />
                 </Route>
-                <Redirect to="/projects"/>
+                <Redirect to="/profile"/>
             </Switch>
         );
     }
