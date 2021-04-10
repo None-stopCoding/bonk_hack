@@ -25,10 +25,13 @@ GET_PROJECT_BY_AUTHOR = GET_ALL_PROJECTS + """
 WHERE user_2.id = %s
 """
 
+ADD_MENTOR = """
+insert into "User-Project" VALUES((select "mentor" from "Project" where "id" = %s), %s, 'Mentor', 0)
+"""
 
 CREATE_PROJECT = """
 INSERT INTO "Project" (name, documents, author, mentor) VALUES (%s, %s, (select "id_organizate" from "User-Organizate" where "id_user" = %s and "status" = 'Участник'), %s);
-insert into "User-Project" VALUES(%s, (select "id" from "Project" order by "id" DESC limit 1), 'Owner', 0)
+insert into "User-Project" VALUES(%s, (select "id" from "Project" order by "id" DESC limit 1), 'Owner', 0);
 """
 
 DELETE_PROJECT = """
