@@ -1,6 +1,6 @@
 import time
 from flask import Flask, send_from_directory, request, make_response
-from server.users.users import get_login, get_profile_info
+from server.users.users import *
 import json
 from server.projects.projects import *
 
@@ -53,6 +53,10 @@ def get_mentors_inf():
     params = request.get_json(force=True)
     return make_response(get_mentors())
 
+@app.route('/api/students/all', methods=["POST"])
+def project_pls():
+    params = request.get_json(force=True)
+    return make_response(json.dumps(get_all_students()))
 
 
 if __name__ == '__main__':

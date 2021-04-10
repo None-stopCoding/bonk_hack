@@ -24,3 +24,7 @@ def get_profile_info(user_id):
 
 def get_competitions_by_id(user_id):
     return Database().SqlQuery(GET_COMPETITIONS_BY_ID, user_id)
+
+
+def get_all_students():
+     return Database().SqlQuery(GET_STUDENTS_ALL)

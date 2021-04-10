@@ -24,6 +24,10 @@ GET_STUDENTS_BY_PROJECT = """
 select * from "User-Project" where "id_project" = %s and "role_in_project" != 'Owner' and "role_in_project" != 'Mentor'
 """
 
+# GET_STUDENTS_ALL = """
+# select * from "User-Project" where "id_project" = %s and "role_in_project" != 'Owner' and "role_in_project" != 'Mentor'
+# """
+
 GET_OWNER_BY_PROJECT = """
 select * from "User-Project" where "id_project" = %s and "role_in_project" = 'Owner'
 """
