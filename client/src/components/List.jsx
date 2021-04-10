@@ -13,8 +13,6 @@ const CustomList = ({ items }) => {
     const {request} = useHttp();
     const auth = useContext(AuthContext);
 
-
-
     return (
         <List component="nav" aria-label="main mailbox folders">
             {

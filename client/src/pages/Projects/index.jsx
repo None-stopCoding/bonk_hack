@@ -57,7 +57,7 @@ const Projects = () => {
         setValue(newValue);
     };
 
-    const getProjects = async (status) => {
+    const getProjects = async () => {
         const data = await request(`/api/projects`, 'POST', {
             status: value,
             userId: auth.userId
@@ -67,7 +67,7 @@ const Projects = () => {
     };
 
     useEffect(() => {
-        getProjects(value);
+        getProjects();
     }, [value]);
 
     return (

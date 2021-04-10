@@ -38,8 +38,9 @@ UPDATE "Project" SET status = %s WHERE id = %s
 """
 
 GET_PROJECT_BY_STATUS = """
-select (select O."name" from "Organizate" AS O where O."id" = P."author"), P."name", 
-(select UPP."status" from "User-Project" AS UPP where UPP."id_project" = P."id" and UPP."role_in_project" = 'Owner')
+select (select O."name" from "Organizate" AS O where O."id" = P."author") as author, P."name", 
+(select UPP."status" from "User-Project" AS UPP where UPP."id_project" = P."id" and UPP."role_in_project" = 'Owner'),
+P."id"
 from "User-Project" AS UP
 inner join "Project" AS P
 on P."id" = UP."id_project"
