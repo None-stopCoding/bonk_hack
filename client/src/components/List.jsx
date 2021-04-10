@@ -9,7 +9,7 @@ import DraftsIcon from '@material-ui/icons/Drafts';
 import {useHttp} from '../hooks/http.hook';
 import {AuthContext} from '../context/AuthContext';
 
-const CustomList = ({ items }) => {
+const CustomList = ({ items, onItemClick }) => {
     const {request} = useHttp();
     const auth = useContext(AuthContext);
 
@@ -18,7 +18,7 @@ const CustomList = ({ items }) => {
             {
                 items.map((item, index) => {
                     return (
-                        <ListItem button key={index}>
+                        <ListItem button key={index} onClick={() => onItemClick(item)}>
                             <ListItemIcon>
                                 <InboxIcon />
                             </ListItemIcon>

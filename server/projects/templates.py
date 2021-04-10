@@ -20,13 +20,45 @@ GET_PROJECT_BY_USER = GET_ALL_PROJECTS + """
 WHERE user_ = %s
 """
 
+GET_STUDENTS_BY_PROJECT = """
+select * from "User-Project" where "id_project" = %s and "role_in_project" != 'Owner' and "role_in_project" != 'Mentor'
+"""
+
+GET_OWNER_BY_PROJECT = """
+select * from "User-Project" where "id_project" = %s and "role_in_project" = 'Owner'
+"""
+
+GET_MENTOR_BY_PROJECT = """
+select * from "User-Project" where "id_project" = %s and "role_in_project" = 'Mentor'
+"""
+
+GET_SUBAUTHOR_BY_PROJECT = """ 
+select * from "Project" where "id" = %s and "subauthor" is not null
+"""
+
+ADD_OWNER_TO_PROJECT = """
+update "Project" set "subauthor" = %s where "id" = %s;
+insert into "User-Project" VALUES(%s, %s, 'Owner', 0)
+"""
+
+IS_ORGANISATE = """
+select "bisiness" from "Organizate" where "id" = (select "id_organizate" from "User-Organizate" where "id_user" = %s)
+"""
 
 GET_PROJECT_BY_AUTHOR = GET_ALL_PROJECTS + """
 WHERE user_2.id = %s
 """
 
+GET_MENTORS = """
+select * from "User" where "role" = 3
+"""
+
 ADD_MENTOR = """
 insert into "User-Project" VALUES((select "mentor" from "Project" where "id" = %s), %s, 'Mentor', 0)
+"""
+
+GET_ROLE = """
+select (select "name" from "Role" where "id" = U."role") from "User" AS U where "id" = %s;
 """
 
 CREATE_PROJECT = """
