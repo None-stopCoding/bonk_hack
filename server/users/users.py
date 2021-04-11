@@ -1,5 +1,4 @@
-from server.users.templates import (AUTHORIZE_BY_LOGIN, ADD_STUDENT_TO_PROJECT, GET_INFO_FOR_PROFILE,
-                                    GET_COMPETITIONS_BY_ID, GET_STUDENTS_ALL)
+from server.users.templates import *
 from server.generals import Database
 import uuid
 
@@ -28,3 +27,18 @@ def get_competitions_by_id(user_id):
 
 def get_all_students():
     return Database().SqlQuery(GET_STUDENTS_ALL)
+
+
+def watch_student(user_id, org_id):
+    Database().SqlQuery(WATCH_STUDENT, user_id, org_id)
+
+def drop_student(user_id, org_id):
+    Database().SqlQuery(DROP_STUDENT, org_id, user_id)
+
+def want_student(user_id, org_id):
+    Database().SqlQuery(WANT_STUDENT, user_id, org_id)
+
+
+
+def get_my_students_organizate(org_id):
+    return Database().SqlQuery(GET_MY_STUDENTS_ORGANIZATE, org_id, org_id)

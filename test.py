@@ -1,3 +1,4 @@
 from server.projects.projects import *
+from server.users.users import *
 
-print(send_project(1, 3))
+print(want_student(1, 2))

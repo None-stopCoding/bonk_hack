@@ -46,7 +46,7 @@ insert into "User-Project" VALUES(%s, %s, 'Owner', 0)
 """
 
 IS_ORGANISATE = """
-select "bisiness" from "Organizate" where "id" = (select "id_organizate" from "User-Organizate" where "id_user" = %s)
+select "bisiness" from "Organizate" where "id" = (select "org" from "User" where "id" = %s)
 """
 
 
@@ -84,7 +84,7 @@ delete from "User-Project" WHERE "id_user" = %s and "id_project" = %s;
 """
 
 CREATE_PROJECT = """
-INSERT INTO "Project" (name, documents, author, mentor) VALUES (%s, %s, (select "id_organizate" from "User-Organizate" where "id_user" = %s and "status" = 'Участник'), %s);
+INSERT INTO "Project" (name, documents, author, mentor) VALUES (%s, %s, (select "org" from "User" where "id" = %s), %s);
 insert into "User-Project" VALUES(%s, (select "id" from "Project" order by "id" DESC limit 1), 'Owner', 0);
 """
 
