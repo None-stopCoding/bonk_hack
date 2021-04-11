@@ -74,6 +74,7 @@ select c.name, c.comment from "Competence" c join "User-Competence" uc on uc.id_
 
 GET_STUDENTS_BY_ORG = """
 select 
+    u.id,
 	u.surname,
 	u.name,
 	u.second_name,
