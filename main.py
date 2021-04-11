@@ -128,7 +128,7 @@ def st_my_pls():
 @app.route('/api/pm/student/wanted', methods=["POST"])
 def st_wanted_pls():
     params = request.get_json(force=True)
-    return make_response(json.dumps(get_wanted_students_organizate(params['orgId'])))
+    return make_response(json.dumps(get_wanted_students_organizate(params['userId'])))
 
 @app.route('/api/student/organizate/wanted', methods=["POST"])
 def st_org_wanted_pls():

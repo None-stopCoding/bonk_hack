@@ -3,16 +3,12 @@
 # получить всех студентов
 # params: NO PARAMS
 GET_STUDENTS_ALL = """
-<<<<<<< HEAD
 SELECT U.id, U."name" name_user, U."surname", U."second_name", O."name" name_org FROM 
 "User" AS U INNER JOIN "Organizate" AS O
 ON U.id = (SELECT UO.id_user FROM "User-Organizate" AS UO WHERE UO.id_user = U.id and UO.id_organizate = O.id) 
 and O.id = (SELECT UO.id_organizate FROM "User-Organizate" AS UO WHERE UO.id_user = U.id and UO.id_organizate = O.id) 
 and (SELECT UO.status FROM "User-Organizate" AS UO WHERE UO.id_user = U.id and UO.id_organizate = O.id) = 'Участник'
 WHERE "role" = 1 
-=======
-select U."name", "surname", "second_name", O."name" from "User" AS U inner join "Organizate" AS O on "org" = O."id" where role = 1
->>>>>>> origin/client
 """
 
 # получить студента по id
@@ -98,7 +94,7 @@ select "name", "surname" from "User" where "org" = %s and role = 1
 """
 
 GET_WANTED_STUDENTS_ORGANIZATE = """
-select (select "name" from "User" where "id" = "id_user"), (select "surname" from "User" where "id" = "id_user") from "StudentStatus" where "id_organizate" = %s and "status" = 'Ожидаемый';
+select (select "name" from "User" where "id" = "id_user"), (select "surname" from "User" where "id" = "id_user") from "StudentStatus" where "id_organizate" = (select "org" from "User" where "id" = %s) and "status" = 'Ожидаемый';
 """
 
 
