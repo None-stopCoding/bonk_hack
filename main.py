@@ -143,7 +143,7 @@ def add_comet():
 
 
 @app.route('/api/project/del_competence', methods=['POST'])
-def add_comet():
+def del_comet():
     params = request.get_json(force=True)
     delete_competence_from_user(params['userId'], params['competence'], params['projectId'])
     return make_response()
