@@ -74,7 +74,7 @@ def get_all_vus():
 
 
 def delete_project(id_project):
-    Database().SqlQuery(CHANGE_PROJECT_STATUS, id_project, id_project)
+    Database().SqlQuery(DELETE_PROJECT, id_project, id_project)
 
 
 def add_competence(student_id, compet, project_id):
