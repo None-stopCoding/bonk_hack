@@ -57,7 +57,10 @@ select
 	u.surname, 
 	u.name, 
 	u.second_name, 
-	u.role
+	u.role,
+	(select count(*) from "User-Project" up where up.status = 3 and up.id_user = u.id) ready,
+	(select count(*) from "User-Project" up where up.status = 1 and up.id_user = u.id) in_work,
+	(select count(*) from "User-Competence" up where up.id_user = u.id) comp
 from "User" u
 where u.id = %s
 """
