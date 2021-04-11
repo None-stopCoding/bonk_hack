@@ -26,6 +26,12 @@ GET_STUDENTS_BY_PROJECT = """
 select * from "User-Project" where "id_project" = %s and "role_in_project" != 'Owner' and "role_in_project" != 'Mentor'
 """
 
+GET_ALL_STUDENTS_BY_PROJECT = """
+SELECT u.name, u.surname, u.second_name, u_p.role_in_project FROM "User-Project" u_p 
+INNER JOIN "User" u ON u.id = u_p.id_user
+WHERE u_p.id_project = %s
+"""
+
 # GET_STUDENTS_ALL = """
 # select * from "User-Project" where "id_project" = %s and "role_in_project" != 'Owner' and "role_in_project" != 'Mentor'
 # """

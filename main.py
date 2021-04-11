@@ -4,8 +4,6 @@ from server.users.users import *
 import json
 from server.projects.projects import *
 
-
-
 app = Flask(__name__, static_url_path='', static_folder='client/build')
 
 
@@ -43,7 +41,8 @@ def project_info_pls():
 @app.route('/api/project/create', methods=["POST"])
 def project_create_pls():
     params = request.get_json(force=True)
-    return make_response(json.dumps(create_project(params['name'], params['documents'], params['userId'], params['mentor'])))
+    return make_response(
+        json.dumps(create_project(params['name'], params['documents'], params['userId'], params['mentor'])))
 
 
 @app.route('/api/profile/get', methods=['POST'])
@@ -51,20 +50,25 @@ def get_profile_inf():
     params = request.get_json(force=True)
     return make_response(json.dumps(get_profile_info(params['user_id'])))
 
+
 @app.route('/api/profile/get/mentors', methods=['POST'])
 def get_mentors_inf():
     params = request.get_json(force=True)
     return make_response(json.dumps(get_mentors()))
+
 
 @app.route('/api/students/all', methods=["POST"])
 def get_students_all():
     params = request.get_json(force=True)
     return make_response(json.dumps(get_all_students()))
 
+
 @app.route('/api/project/pm/invite', methods=["POST"])
 def project_invite_pls():
     params = request.get_json(force=True)
-    return make_response(json.dumps(add_student_to_project(params['studentId'], params['projectId'], params['projectRole'])))
+    return make_response(
+        json.dumps(add_student_to_project(params['studentId'], params['projectId'], params['projectRole'])))
+
 
 @app.route('/api/project/student/accept', methods=["POST"])
 def project_accept_pls():
@@ -83,15 +87,18 @@ def project_drop_pls():
     params = request.get_json(force=True)
     return make_response(json.dumps(delete_student_to_project(params['userId'], params['projectId'])))
 
+
 @app.route('/api/project/pm/delete', methods=["POST"])
 def project_delete_pls():
     params = request.get_json(force=True)
     return make_response(json.dumps(delete_project(params['projectId'])))
 
+
 @app.route('/api/vus/all', methods=["POST"])
 def vus_pls():
     params = request.get_json(force=True)
     return make_response(json.dumps(get_all_vus()))
+
 
 @app.route('/api/project/pm/redirect', methods=["POST"])
 def project_redirect_pls():
@@ -113,30 +120,36 @@ def st_watch_pls():
     params = request.get_json(force=True)
     return make_response(json.dumps(watch_student(params['userId'], params['orgId'])))
 
+
 @app.route('/api/pm/student/want', methods=["POST"])
 def st_want_pls():
     params = request.get_json(force=True)
     return make_response(json.dumps(want_student(params['userId'], params['orgId'])))
+
 
 @app.route('/api/pm/student/drop', methods=["POST"])
 def st_drop_pls():
     params = request.get_json(force=True)
     return make_response(json.dumps(drop_student(params['userId'], params['orgId'])))
 
+
 @app.route('/api/pm/student/my', methods=["POST"])
 def st_my_pls():
     params = request.get_json(force=True)
     return make_response(json.dumps(get_my_students_organizate(params['orgId'])))
+
 
 @app.route('/api/pm/student/wanted', methods=["POST"])
 def st_wanted_pls():
     params = request.get_json(force=True)
     return make_response(json.dumps(get_wanted_students_organizate(params['userId'])))
 
+
 @app.route('/api/student/organizate/wanted', methods=["POST"])
 def st_org_wanted_pls():
     params = request.get_json(force=True)
     return make_response(json.dumps(get_organizate_to_want(params['userId'])))
+
 
 @app.route('/api/project/add_competence', methods=['POST'])
 def add_comet():
@@ -158,21 +171,30 @@ def get_all_projects_by_user():
     data = get_all_projects(params['userId'])
     return make_response(json.dumps(data))
 
+
 @app.route('/api/user/competitions', methods=['POST'])
 def get_all_compet():
     params = request.get_json(force=True)
     data = get_competitions_by_id(params['userId'])
     return make_response(json.dumps(data))
 
+
 @app.route('/api/student/competence/own', methods=["POST"])
 def st_comp_own_pls():
     params = request.get_json(force=True)
     return make_response(json.dumps(get_own_competence(params['userId'])))
 
+
 @app.route('/api/student/competence/wanted', methods=["POST"])
 def st_comp_wanted_pls():
     params = request.get_json(force=True)
     return make_response(json.dumps(get_wanted_competence(params['userId'])))
+
+
+@app.route('/api/project/students/')
+def get_students_all_project_id():
+    params = request.get_json(force=True)
+    return make_response(json.dumps(get_students_by_project(params['project_id'])))
 
 
 if __name__ == '__main__':
