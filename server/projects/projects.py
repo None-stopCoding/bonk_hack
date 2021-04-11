@@ -57,4 +57,4 @@ def get_all_vus():
     return  Database().SqlQuery(GET_VUS)
 
 def delete_project(id_project):
-    Database().SqlQuery(CHANGE_PROJECT_STATUS, id_project, id_project)
+    Database().SqlQuery(DELETE_PROJECT, id_project, id_project)
