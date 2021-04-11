@@ -89,21 +89,21 @@ const Students = () => {
 
     const getStudentsOverwatch = async (status) => {
         const data = await request(`/api/pm/student/my`, 'POST', {
-            orgId: auth.userId
+            orgId: auth.orgId
         });
         setStudentsOverwatch(data);
     };
 
     const getStudentsApply = async (status) => {
         const data = await request(`/api/pm/student/wanted`, 'POST', {
-            orgId: auth.userId
+            userId: auth.userId
         });
         setStudentsApply(data);
     };
 
     const getStudentsOnProjects = async (status) => {
         const data = await request(`/api/students/get_by_org`, 'POST', {
-            id_org: 1,
+            id_org: auth.orgId,
             projects: true
         });
         setStudentsOnProjects(data);

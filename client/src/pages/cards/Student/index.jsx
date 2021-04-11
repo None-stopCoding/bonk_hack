@@ -4,7 +4,11 @@ import "./studentcard.css"
 
 export default function StudentCard({student}) {
     // const [expanded, setExpanded] = React.useState(false);
-    const [competence, setCompetence] = useState(false);
+    const [competence, setCompetence] = useState(null);
+
+    function getCompetences() {
+
+    }
 
     return (
         <div className="student-card">
