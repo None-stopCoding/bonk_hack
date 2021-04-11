@@ -6,7 +6,10 @@ def get_projects(user_id, status):
     return Database().SqlQuery(GET_PROJECT_BY_STATUS, user_id, status)
 
 def get_project_info(id):
-    return Database().SqlQuery(GET_ALL_INFO_ABOUT_PROJECT, id)
+    db = Database()
+    info = db.SqlQueryRecord(GET_ALL_INFO_ABOUT_PROJECT, id)
+    info['students'] = db.SqlQuery(GET_ALL_STUDENTS_BY_PROJECT, id)
+    return info
 
 def create_project(name, documents, author, mentor):
      return Database().SqlQuery(CREATE_PROJECT, name, documents, author, mentor, author)

@@ -109,21 +109,33 @@ where UP."id_user" = %s and UP."status" = %s
 
 GET_ALL_INFO_ABOUT_PROJECT = """
 SELECT 
-project.name "Название проекта", 
-project.documents "Документы",
-user_.name "Имя студента", 
-user_.surname "Фамилия студента", 
-user_.second_name "Отчество студента",
-user_2.name "Имя автора", 
-user_2.surname "Фамилия автора", 
-user_2.second_name "Отчество автора"
+project.id, 
+project.name "project_name", 
+project.documents "project_doc",
+(select status from "User-Project" up where up.id_project = project.id and role_in_project = 'Owner' limit 1) "project_status",
+user_2.name "author_name", 
+user_2.surname "author_surname", 
+user_2.second_name "author_second_name"
 FROM "Project" project
 INNER JOIN "User-Project" user_project ON user_project.id_project = project.id
-INNER JOIN "User" user_ ON user_.id = user_project.id_user and user_project.role_in_project != 'Owner'
 INNER JOIN "User" user_2 ON user_2.id = project.author
 
 WHERE project.id = %s
-and not (user_.name = user_2.name and user_.surname = user_2.surname and user_.second_name = user_2.second_name)
+"""
+
+GET_ALL_STUDENTS_BY_PROJECT = """
+select distinct on (u.id)
+	u.id,
+	u.name,
+	u.surname,
+	u.second_name,
+	p.name project_name,
+	up.role_in_project
+from "Project" p
+join "User-Project" up on up.id_project = p.id
+join "User" u on u.id = up.id_user
+where p.id = %s
+and up.role_in_project != 'Owner'
 """
 
 GET_ID_COMPET_BY_NAME = """
