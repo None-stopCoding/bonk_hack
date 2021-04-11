@@ -115,3 +115,14 @@ select o.id, o.name from "Organizate" o
 left join "StudentStatus" ss on ss.id_organizate = o.id and ss.id_user = %s
 where ss.status is null and o.id != (select u.org from "User" u where u.id = %s)
 """
+
+
+GET_OWN_COMPETENCE = """
+select "name", "comment" from "Competence" inner join "User-Competence" on 
+"id" = "id_competence" and "id_user" = %s
+"""
+
+GET_WANTED_COMPETENCE = """
+select "name", "comment" from "Competence" inner join "User-Competence-Wanted" on 
+"id" = "id_competence" and "id_user" = %s
+"""

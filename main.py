@@ -135,5 +135,16 @@ def st_org_wanted_pls():
     params = request.get_json(force=True)
     return make_response(json.dumps(get_organizate_to_want(params['userId'])))
 
+@app.route('/api/student/competence/own', methods=["POST"])
+def st_comp_own_pls():
+    params = request.get_json(force=True)
+    return make_response(json.dumps(get_own_competence(params['userId'])))
+
+@app.route('/api/student/competence/wanted', methods=["POST"])
+def st_comp_wanted_pls():
+    params = request.get_json(force=True)
+    return make_response(json.dumps(get_wanted_competence(params['userId'])))
+
+
 if __name__ == '__main__':
     app.run()

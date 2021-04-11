@@ -55,3 +55,10 @@ def get_wanted_students_organizate(user_id):
 
 def get_organizate_to_want(user_id):
     return Database().SqlQuery(GET_ORGANIZATE_TO_WANT, user_id, user_id)
+
+
+def get_own_competence(user_id):
+    return Database().SqlQuery(GET_OWN_COMPETENCE, user_id)
+
+def get_wanted_competence(user_id):
+    return Database().SqlQuery(GET_WANTED_COMPETENCE, user_id)
