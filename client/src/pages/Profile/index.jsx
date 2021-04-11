@@ -1,27 +1,96 @@
 import React, {useContext, useEffect, useState} from 'react';
 import {AuthContext} from '../../context/AuthContext';
 import "./profile.css"
+import { makeStyles, useTheme } from '@material-ui/core/styles';
 import Container from "@material-ui/core/Container";
+import Button from '@material-ui/core/Button';
 import Grid from "@material-ui/core/Grid";
 import {useHttp} from "../../hooks/http.hook";
+import Dialog from './../../components/Dialog';
+
+
+import InputLabel from '@material-ui/core/InputLabel';
+import MenuItem from '@material-ui/core/MenuItem';
+import FormHelperText from '@material-ui/core/FormHelperText';
+import FormControl from '@material-ui/core/FormControl';
+import Select from '@material-ui/core/Select';
+
+const useStyles = makeStyles((theme) => ({
+    root: {
+      backgroundColor: theme.palette.background.paper,
+      width: 1300,
+    },
+    spinnerWrapper: {
+        display: 'flex',
+        justifyContent: "center",
+        width: '100%',
+        height: '100%',
+        alignItems: 'center'
+    },
+    spinner: {
+        marginTop: 17
+    },
+    projectWrapper: {
+        display: 'flex',
+        justifyContent: 'center',
+        position: 'absolute',
+        right: 0,
+        left: 0
+    },
+    projectList: {
+        width: '50vw'
+    },
+    addProject: {
+        width: 182,
+        height: 74,
+        fontSize: 16,
+        marginLeft: 300
+    },
+    formCreate: {
+        flexDirection: 'column'
+    }
+  }));
 
 const PersonalInformation = () => {
     const auth = useContext(AuthContext);
+    const classes = useStyles();
     const {request} = useHttp();
     const [info, setInfo] = useState({});
+    const [openDialogChooseOrg, setOpen] = useState(false);
+    const [organizations, setOrgs] = useState([]);
+    const [chosenOrg, chooseOrg] = useState('');
 
     const getPersonalInfo = async (status) => {
         const data = await request('/api/profile/get', 'POST', {
             user_id: auth.userId
         });
-        // debugger;
         setInfo(data);
     }
 
 
-    useEffect(() => {
+    useEffect(async () => {
         getPersonalInfo();
+        const data = await request('/api/student/organizate/wanted', 'POST', {
+            userId: auth.userId
+        });
+        setOrgs(data);
     }, []);
+
+    const sendPortfolio = () => {
+        setOpen(true);
+    }
+
+    const closeDialog = async () => {
+        await request('/api/pm/student/want', 'POST', {
+            orgId: chosenOrg,
+            userId: auth.userId
+        });
+        setOpen(false);
+    }
+
+    const changeOrgPortfolio = (event) => {
+        chooseOrg(event.target.value);
+    }
 
     const getCompetence = () => {
         let listCompetence = [];
@@ -72,7 +141,21 @@ const PersonalInformation = () => {
 
     return (
         <section className="section about-section gray-bg" id="about">
+            {
+                auth.role === 'Student' ? 
+                <div>
+                    
+                </div> : <></>
+            }
             <div className="container">
+                <div className="row justify-content-end mb-2">
+                    {
+                        auth.role === 'Student' ?
+                        <Button variant="contained" color="primary" onClick={sendPortfolio}>
+                            Отправить портфолио
+                        </Button> : <></>
+                    }
+                </div>
                 <div className="row align-items-center flex-row-reverse">
                     <div className="col-lg-6">
                         <div className="about-text go-to">
@@ -127,19 +210,19 @@ const PersonalInformation = () => {
                     <div className="row">
                         <div className="col-4 col-lg-4">
                             <div className="count-data text-center">
-                                <h6 className="count h2" data-to="500" data-speed="500">2</h6>
+                                <h6 className="count h2" data-to="500" data-speed="500">{info.in_work}</h6>
                                 <p className="m-0px font-w-600">Проектов в работе</p>
                             </div>
                         </div>
                         <div className="col-4 col-lg-4">
                             <div className="count-data text-center">
-                                <h6 className="count h2" data-to="150" data-speed="150">3</h6>
+                                <h6 className="count h2" data-to="150" data-speed="150">{info.ready}</h6>
                                 <p className="m-0px font-w-600">Успешно завершенных</p>
                             </div>
                         </div>
                         <div className="col-4 col-lg-4">
                             <div className="count-data text-center">
-                                <h6 className="count h2" data-to="850" data-speed="850">10</h6>
+                                <h6 className="count h2" data-to="850" data-speed="850">{info.comp}</h6>
                                 <p className="m-0px font-w-600">Количество компетенций</p>
                             </div>
                         </div>
@@ -147,6 +230,30 @@ const PersonalInformation = () => {
                 </div>
             </div>
             {getCompetence()}
+
+            <Dialog {...{
+                open: openDialogChooseOrg,
+                close: closeDialog,
+                title: 'Выберите организацию для отправки портфолио',
+                titleAction: 'Отправить'
+            }}>
+                <form className={classes.formCreate} noValidate autoComplete="off">
+                    <FormControl className={classes.formControl}>
+                        <InputLabel id="demo-simple-select-helper-label">Компания</InputLabel>
+                        <Select
+                        labelId="demo-simple-select-helper-label"
+                        id="demo-simple-select-helper"
+                        name="orgId"
+                        onChange={changeOrgPortfolio}
+                        >
+                        {
+                            organizations.map((item, index) => <MenuItem value={item.id} key={index}>{`${item.name}`}</MenuItem>)
+                        }
+                        </Select>
+                        <FormHelperText>Выберите компанию для подачи заявления на практику</FormHelperText>
+                    </FormControl>
+                </form>
+            </Dialog>
         </section>
     )
 }
