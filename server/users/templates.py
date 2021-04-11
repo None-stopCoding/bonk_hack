@@ -105,7 +105,7 @@ select
 	u.surname,
 	u.second_name
 from "User" u
-where u. = %s and u.role = 1
+where u.org = %s and u.role = 1
 """
 
 GET_WANTED_STUDENTS_ORGANIZATE = """
