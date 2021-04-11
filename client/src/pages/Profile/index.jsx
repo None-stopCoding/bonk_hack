@@ -81,10 +81,12 @@ const PersonalInformation = () => {
     }
 
     const closeDialog = async () => {
-        await request('/api/pm/student/want', 'POST', {
-            orgId: chosenOrg,
-            userId: auth.userId
-        });
+        if (chosenOrg) {
+            await request('/api/pm/student/want', 'POST', {
+                orgId: chosenOrg,
+                userId: auth.userId
+            });
+        }
         setOpen(false);
     }
 
@@ -233,7 +235,7 @@ const PersonalInformation = () => {
 
             <Dialog {...{
                 open: openDialogChooseOrg,
-                close: closeDialog,
+                close: closeDialog, 
                 title: 'Выберите организацию для отправки портфолио',
                 titleAction: 'Отправить'
             }}>
