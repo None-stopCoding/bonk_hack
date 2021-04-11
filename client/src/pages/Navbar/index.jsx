@@ -90,7 +90,7 @@ const Navbar = ({ open, setOpen }) => {
   };
 
   useEffect(() => {
-    // getMenuItemsByRole();
+    getMenuItemsByRole();
   }, []);
 
   const menuActivated = (event) => {
@@ -115,7 +115,7 @@ const Navbar = ({ open, setOpen }) => {
       >
         <Toolbar>
           <Typography variant="h6" noWrap className={classes.title}>
-            Persistent drawer
+            Текущая роль: {auth.role}
           </Typography>
           <IconButton
             color="inherit"

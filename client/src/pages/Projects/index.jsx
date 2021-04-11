@@ -70,7 +70,14 @@ const useStyles = makeStyles((theme) => ({
         marginTop: 17
     },
     projectWrapper: {
-        display: 'flex'
+        display: 'flex',
+        justifyContent: 'center',
+        position: 'absolute',
+        right: 0,
+        left: 0
+    },
+    projectList: {
+        width: '50vw'
     },
     addProject: {
         width: 182,
@@ -135,11 +142,9 @@ const Projects = () => {
 
 
     const openProjectModal = async (project) => {
-        setOpening(true);
         const data = await request(`/api/project`, 'POST', {
             id: project.id,
         });
-        setOpening(false);
 
         setCurProject(data);
         setProjectOpen(true);
@@ -168,7 +173,7 @@ const Projects = () => {
     return (
         <div className={classes.root}>
             <div className={classes.projectWrapper}>
-                <div>
+                <div className={classes.projectList}>
                 <AppBar position="static" color="default">
                     <Tabs
                         value={value}
@@ -198,7 +203,15 @@ const Projects = () => {
                     getItemsByRole().map((item, index) => {
                         return (
                             <TabPanel value={value} index={index} key={index}>
-                                <List {...{ items: listItems, onItemClick: openProjectModal}}/>
+                                <List {...{
+                                    items: listItems,
+                                    onItemClick: openProjectModal,
+                                    content: 'project',
+                                    contentOptions: {
+                                        status: item
+                                    },
+                                    reload: getProjects
+                                }}/>
                             </TabPanel>
                         );
                     })
