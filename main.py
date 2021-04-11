@@ -61,7 +61,7 @@ def get_students_all():
 @app.route('/api/project/pm/invite', methods=["POST"])
 def project_invite_pls():
     params = request.get_json(force=True)
-    return make_response(json.dumps(add_student_to_project(params['studentId'], params['projectId'], params['role'])))
+    return make_response(json.dumps(add_student_to_project(params['studentId'], params['projectId'], params['projectRole'])))
 
 @app.route('/api/project/student/accept', methods=["POST"])
 def project_accept_pls():
