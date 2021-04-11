@@ -91,9 +91,21 @@ and up.role_in_project != 'Owner' and up.role_in_project != 'Mentor'
 """
 
 GET_MY_STUDENTS_ORGANIZATE = """
-select (select "name" from "User" where "id" = "id_user"), (select "surname" from "User" where "id" = "id_user") from "StudentStatus" where "id_organizate" = %s and "status" = 'Наблюдаемый'
-union 
-select "name", "surname" from "User" where "org" = %s and role = 1
+select
+	u.id,
+	u.name,
+	u.surname,
+	u.second_name
+from "User" u
+join "StudentStatus" ss on ss.id_organizate = %s and ss.status = 'Наблюдаемый'
+union
+select
+	u.id,
+	u.name,
+	u.surname,
+	u.second_name
+from "User" u
+where u. = %s and u.role = 1
 """
 
 GET_WANTED_STUDENTS_ORGANIZATE = """
