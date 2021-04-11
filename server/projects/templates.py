@@ -84,8 +84,9 @@ insert into "User-Project" VALUES(%s, (select "id" from "Project" order by "id" 
 """
 
 DELETE_PROJECT = """
-DELETE FROM "Project" WHERE id = %s;
--- DELETE FROM "User-Project" WHERE id = %s;
+DELETE FROM "User-Project" WHERE "id_project" = %s;
+DELETE FROM "Project" WHERE "id" = %s;
+
 """
 
 CHANGE_PROJECT_STATUS = """
