@@ -57,7 +57,6 @@ function a11yProps(index) {
 const useStyles = makeStyles((theme) => ({
     root: {
       backgroundColor: theme.palette.background.paper,
-      width: 1300,
     },
     spinnerWrapper: {
         display: 'flex',
@@ -346,10 +345,11 @@ const Projects = () => {
                                 labelId="demo-simple-select-helper-label"
                                 id="demo-simple-select-helper"
                                 name="studentId"
+                                value={dialogResult.studentId}
                                 onChange={changeDialogResult}
                             >
                             {
-                                studentsWanted.map((item, index) => <MenuItem value={item.id_user} key={index}>{`${item.surname} ${item.name}`}</MenuItem>)
+                                studentsWanted.map((item, index) => <MenuItem value={item.id} key={index}>{`${item.surname} ${item.name}`}</MenuItem>)
                             }
                             </Select>
                             <FormHelperText>Выберите студента для участия в проекте</FormHelperText>

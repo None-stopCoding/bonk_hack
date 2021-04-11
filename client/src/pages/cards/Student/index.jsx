@@ -25,7 +25,6 @@ export default function StudentCard({student}) {
     }
 
     useEffect(() => {
-        debugger;
         getCompetences();
         getProjects();
     }, []);
@@ -81,7 +80,6 @@ export default function StudentCard({student}) {
 
     function competence() {
         let listCompetences_ = [];
-        debugger
         if (listCompetences.length > 0) {
             let counter = 1
             listCompetences.forEach((competence) => {
