@@ -50,8 +50,15 @@ def want_student(user_id, org_id):
 def get_my_students_organizate(org_id):
     return Database().SqlQuery(GET_MY_STUDENTS_ORGANIZATE, org_id, org_id)
 
-def get_wanted_students_organizate(org_id):
-    return Database().SqlQuery(GET_WANTED_STUDENTS_ORGANIZATE, org_id)
+def get_wanted_students_organizate(user_id):
+    return Database().SqlQuery(GET_WANTED_STUDENTS_ORGANIZATE, user_id)
 
 def get_organizate_to_want(user_id):
     return Database().SqlQuery(GET_ORGANIZATE_TO_WANT, user_id, user_id)
+
+
+def get_own_competence(user_id):
+    return Database().SqlQuery(GET_OWN_COMPETENCE, user_id)
+
+def get_wanted_competence(user_id):
+    return Database().SqlQuery(GET_WANTED_COMPETENCE, user_id)

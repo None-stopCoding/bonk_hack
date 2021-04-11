@@ -3,7 +3,7 @@ import AppBar from '@material-ui/core/AppBar';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
-import PhoneIcon from '@material-ui/icons/Phone';
+import AssignmentIcon from '@material-ui/icons/Assignment';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 
@@ -105,14 +105,53 @@ const Projects = () => {
     const [listItems, setList] = useState([]);
     const [projectOpen, setProjectOpen] = useState(false);
     const [curProject, setCurProject] = useState(null);
-    const [opening, setOpening] = useState(false);
     const [openDialog, setOpenDialog] = useState(false);
+
     const [mentors, setMentors] = useState([]);
+    const [studentsWanted, setStudentsWanted] = useState([]);
+
     const [createForm, updateCreateProjectForm] = useState(defaultCreateForm);
+
+    const [dialogContent, changeDialogContent] = useState('createProject');
+    const [dialogResult, setDialogResult] = useState({});
+    const [dialogHeaders, setDialogHeaders] = useState({
+        title: '',
+        titleAction: ''
+    });
+    const [afterCloseAction, setAfterCloseAction] = useState(() => {});
 
     const changeCreateFormHandler = event => {
 		updateCreateProjectForm({ ...createForm, [event.target.name]: event.target.value })
 	};
+    const changeDialogResult = event => {
+        setDialogResult({...dialogResult, [event.target.name]: event.target.value })
+    };
+
+    const onDialogOpen = async (content, afterCloseAction_) => {
+        setOpenDialog(true);
+        setAfterCloseAction(afterCloseAction_);
+        let data = [];
+    };
+    useEffect(() => {
+        const config = {
+            'createProject': {
+                title: "Создание проекта",
+                titleAction: "Создать"
+            },
+            'chooseStudentToInvite': {
+                title: 'Выберите студента на проект',
+                titleAction: 'Пригласить'
+            },
+            'chooseUniversityToSendProject': {
+                title: 'Выберите университет для предложения проекта',
+                titleAction: 'Отослать предложение'
+            }
+        }
+        setDialogHeaders({
+            title: config[dialogContent].title,
+            titleAction: config[dialogContent].titleAction
+        });
+    }, [dialogContent]);
 
     const getItemsByRole = () => {
         const permissions = {
@@ -140,6 +179,11 @@ const Projects = () => {
         getProjects();
     }, [value]);
 
+    useEffect(() => {
+        data = await request('/api/pm/student/wanted', 'POST', { userId: auth.userId });
+        setStudentsWanted(data);
+    }, [])
+
 
     const openProjectModal = async (project) => {
         const data = await request(`/api/project`, 'POST', {
@@ -164,10 +208,23 @@ const Projects = () => {
 
     const closeDialog = async () => {
         setOpenDialog(false);
+        debugger;
 
-        await request(`/api/project/create`, 'POST', {...createForm, userId: auth.userId});
-        getProjects();
-        updateCreateProjectForm(defaultCreateForm);
+        switch (dialogContent) {
+            case 'createProject':
+                await request(`/api/project/create`, 'POST', {...createForm, userId: auth.userId});
+                getProjects();
+                updateCreateProjectForm(defaultCreateForm);
+                break;
+            case 'chooseStudentToInvite':
+                if (afterCloseAction instanceof Function) {
+                    afterCloseAction(dialogResult);
+                    setAfterCloseAction(() => {});
+                }
+                setDialogResult({});
+                break;
+
+        }
     };
 
     return (
@@ -187,7 +244,7 @@ const Projects = () => {
                         {
                             getItemsByRole().map((item, index) => {
                                 return (
-                                    <Tab key={index} label={item} icon={<PhoneIcon />} {...a11yProps(index)} />            
+                                    <Tab key={index} label={item} icon={<AssignmentIcon />} {...a11yProps(index)} />            
                                 )
                             })
                         }
@@ -208,9 +265,13 @@ const Projects = () => {
                                     onItemClick: openProjectModal,
                                     content: 'project',
                                     contentOptions: {
-                                        status: item
+                                        status: item,
+                                        reload: getProjects,
+                                        dialog: {
+                                            changeDialogContent,
+                                            open: onDialogOpen
+                                        }
                                     },
-                                    reload: getProjects
                                 }}/>
                             </TabPanel>
                         );
@@ -235,28 +296,52 @@ const Projects = () => {
         <Dialog {...{
             open: openDialog,
             close: closeDialog,
-            title: 'Создание проекта',
-            titleAction: 'Создать'
+            title: dialogHeaders.title,
+            titleAction: dialogHeaders.titleAction
         }}>
-            <form className={classes.formCreate} noValidate autoComplete="off">
-                <TextField id="outlined-basic" name="name" label="Название проекта" variant="outlined" onChange={changeCreateFormHandler}/>
-                <TextField id="outlined-basic" name="documents" label="Документы" variant="outlined" onChange={changeCreateFormHandler}/>
-                <FormControl className={classes.formControl}>
-                    <InputLabel id="demo-simple-select-helper-label">Наставник</InputLabel>
-                    <Select
-                    labelId="demo-simple-select-helper-label"
-                    id="demo-simple-select-helper"
-                    name="mentor"
-                    value={mentors.find((mentor) => mentor.id === createForm.mentor)?.name}
-                    onChange={changeCreateFormHandler}
-                    >
-                    {
-                        mentors.map((item, index) => <MenuItem value={item.id} key={index}>{`${item.surname} ${item.name} ${item.second_name}`}</MenuItem>)
-                    }
-                    </Select>
-                    <FormHelperText>Выберите наставника проекта</FormHelperText>
-                </FormControl>
-            </form>
+            {
+                dialogContent === 'createProject' ?
+                    <form className={classes.formCreate} noValidate autoComplete="off">
+                        <TextField id="outlined-basic" name="name" label="Название проекта" variant="outlined" onChange={changeCreateFormHandler}/>
+                        <TextField id="outlined-basic" name="documents" label="Документы" variant="outlined" onChange={changeCreateFormHandler}/>
+                        <FormControl className={classes.formControl}>
+                            <InputLabel id="demo-simple-select-helper-label">Наставник</InputLabel>
+                            <Select
+                            labelId="demo-simple-select-helper-label"
+                            id="demo-simple-select-helper"
+                            name="mentor"
+                            value={mentors.find((mentor) => mentor.id === createForm.mentor)?.name}
+                            onChange={changeCreateFormHandler}
+                            >
+                            {
+                                mentors.map((item, index) => <MenuItem value={item.id} key={index}>{`${item.surname} ${item.name} ${item.second_name}`}</MenuItem>)
+                            }
+                            </Select>
+                            <FormHelperText>Выберите наставника проекта</FormHelperText>
+                        </FormControl>
+                    </form> :
+                dialogContent === 'chooseStudentToInvite' ?
+                    <form className={classes.formCreate} noValidate autoComplete="off">
+                        <TextField id="outlined-basic" name="projectRole" label="Роль в проекте" variant="outlined" onChange={changeDialogResult}/>
+                        <FormControl className={classes.formControl}>
+                            <InputLabel id="demo-simple-select-helper-label">Студент</InputLabel>
+                            <Select
+                            labelId="demo-simple-select-helper-label"
+                            id="demo-simple-select-helper"
+                            name="studentId"
+                            value={studentsWanted.find((student) => student.id === dialogResult.studentId)?.name}
+                            onChange={changeDialogResult}
+                            >
+                            {
+                                studentsWanted.map((item, index) => <MenuItem value={item.id} key={index}>{`${item.surname} ${item.name} ${item.second_name}`}</MenuItem>)
+                            }
+                            </Select>
+                            <FormHelperText>Выберите стулента дял участия в проекте</FormHelperText>
+                        </FormControl>
+                    </form> :
+                dialogContent === 'chooseUniversityToSendProject' ?
+                    <div>university</div> : <></>
+            }
         </Dialog>
         </div>
     )

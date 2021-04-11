@@ -1,4 +1,4 @@
 from server.projects.projects import *
 from server.users.users import *
 
-print(get_organizate_to_want(1))
+print(want_student(1, 5))
