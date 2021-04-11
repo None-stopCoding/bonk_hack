@@ -63,6 +63,18 @@ def project_accept_pls():
     params = request.get_json(force=True)
     return make_response(json.dumps(add_student_to_project(params['userId'], params['projectId'], params['role'])))
 
+@app.route('/api/project/accept', methods=["POST"])
+def project_accept_pls():
+    params = request.get_json(force=True)
+    return make_response(json.dumps(accept_project(params['userId'], params['projectId'])))
+
+
+@app.route('/api/project/send', methods=["POST"])
+def project_accept_pls():
+    params = request.get_json(force=True)
+    return make_response(json.dumps(send_project(params['userId'], params['projectId'])))
+
+
 @app.route('/api/project/drop', methods=["POST"])
 def project_decline_pls():
     params = request.get_json(force=True)

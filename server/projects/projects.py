@@ -30,10 +30,10 @@ def change_project_status(status, user_id, project_id):
 
     return Database().SqlQuery(CHANGE_PROJECT_STATUS, status, user_id, project_id)
 
+
 def send_to_vus(id_user, id_project, id_vus):
-    if Database().SqlQueryRecord(IS_ORGANISATE, user_id)[0]: 
-        Database().SqlQuery(CHANGE_PROJECT_STATUS, 2, user_id, project_id)
-        Database().SqlQuery(ADD_OWNER_TO_PROJECT, id_vus, id_project, id_vus, id_project)    
+    Database().SqlQuery(CHANGE_PROJECT_STATUS, 2, user_id, project_id)
+    Database().SqlQuery(ADD_OWNER_TO_PROJECT, id_vus, id_project, id_vus, id_project)    
 
 def get_mentors():
     return Database().SqlQuery(GET_MENTORS)
@@ -43,3 +43,15 @@ def add_student_to_project(id_student, id_project, role):
 
 def delete_student_to_project(id_student, id_project):
     Database().SqlQuery(DELETE_PROJECT_TO_STUDENT(id_student, id_project))
+
+def accept_project(id_student, id_project):
+    for i in Database().SqlQuery(GET_OWNER_BY_PROJECT, id_project):
+        Database().SqlQuery(CHANGE_PROJECT_STATUS, 1, i["id_user"], id_project)
+    Database().SqlQuery(CHANGE_PROJECT_STATUS, 1, id_student, id_project)
+
+def send_project(id_student, id_project):
+    Database().SqlQuery(ADD_MENTOR, id_project, id_project)   
+    Database().SqlQuery(CHANGE_PROJECT_STATUS, 2, id_student, id_project)
+
+def get_all_vus():
+    return  Database().SqlQuery(GET_VUS)

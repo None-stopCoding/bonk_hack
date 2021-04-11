@@ -49,6 +49,11 @@ IS_ORGANISATE = """
 select "bisiness" from "Organizate" where "id" = (select "id_organizate" from "User-Organizate" where "id_user" = %s)
 """
 
+
+GET_VUS = """
+select * from "Organizate" where "bisiness" = false
+"""
+
 GET_PROJECT_BY_AUTHOR = GET_ALL_PROJECTS + """
 WHERE user_2.id = %s
 """
