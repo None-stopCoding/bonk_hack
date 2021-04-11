@@ -150,13 +150,13 @@ def add_comet():
 
 
 @app.route('/api/project/by_user', methods=['POST'])
-def add_comet():
+def get_all_projects_by_user():
     params = request.get_json(force=True)
     data = get_all_projects(params['userId'])
     return make_response(json.dumps(data))
 
 @app.route('/api/user/competitions', methods=['POST'])
-def add_comet():
+def get_all_compet():
     params = request.get_json(force=True)
     data = get_competitions_by_id(params['userId'])
     return make_response(json.dumps(data))
