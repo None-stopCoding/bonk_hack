@@ -15,6 +15,9 @@ def get_current_time():
 
 
 @app.route('/')
+@app.route('/profile')
+@app.route('/projects')
+@app.route('/students')
 def hello_world():
     return send_from_directory(app.static_folder, 'index.html')
 
