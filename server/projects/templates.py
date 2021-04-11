@@ -3,17 +3,19 @@ SELECT
 project.id, 
 project.name "project_name", 
 project.documents "project_doc",
-project.status "project_status",
+(select status from "User-Project" up where up.id_project = project.id and role_in_project = 'Owner' limit 1) "project_status",
 user_.name, 
 user_.surname, 
 user_.second_name,
 user_2.name "author_name", 
 user_2.surname "author_surname", 
-user_2.second_name "author_second_name"
+user_2.second_name "author_second_name",
+o.name business_name
 FROM "Project" project
 INNER JOIN "User-Project" user_project ON user_project.id_project = project.id
 INNER JOIN "User" user_ ON user_.id = user_project.id_user
 INNER JOIN "User" user_2 ON user_2.id = project.author
+join "Organizate" o on o.id = project.author
 """
 
 GET_PROJECT_BY_USER = GET_ALL_PROJECTS + """
