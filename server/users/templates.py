@@ -80,7 +80,5 @@ select
 	u.second_name,
 	o.name org_name
 from "User" u
-join "User-Organizate" uo on uo.id_user = u.id
-join "Organizate" o on uo.id_organizate = o.id
-where o.id = %s
+where u.org = %s
 """
