@@ -1,0 +1,13 @@
+.student-field{
+    padding: 0 10px;
+    margin: 5px 0;
+}
+
+.student{
+    background: white;
+    border: black solid 1px;
+}
+
+.student-tr{
+    cursor: pointer;
+}
