@@ -112,7 +112,7 @@ SELECT
 project.id, 
 project.name "project_name", 
 project.documents "project_doc",
-(select status from "User-Project" up where up.id_project = project.id and role = 'Owner' limit 1) "project_status",
+(select status from "User-Project" up where up.id_project = project.id and role_in_project = 'Owner' limit 1) "project_status",
 user_2.name "author_name", 
 user_2.surname "author_surname", 
 user_2.second_name "author_second_name"
@@ -130,7 +130,7 @@ select distinct on (u.id)
 	u.surname,
 	u.second_name,
 	p.name project_name,
-	up.role
+	up.role_in_project
 from "Project" p
 join "User-Project" up on up.id_project = p.id
 join "User" u on u.id = up.id_user
