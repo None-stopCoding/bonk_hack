@@ -191,7 +191,7 @@ def st_comp_wanted_pls():
     return make_response(json.dumps(get_wanted_competence(params['userId'])))
 
 
-@app.route('/api/project/students/')
+@app.route('/api/project/students', methods=["POST"])
 def get_students_all_project_id():
     params = request.get_json(force=True)
     return make_response(json.dumps(get_students_by_project(params['project_id'])))
