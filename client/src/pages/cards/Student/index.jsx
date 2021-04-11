@@ -5,9 +5,6 @@ export default function StudentCard({ student }) {
 
   return (
     <div>
-      <p>{student.name}</p>
-      <p>{student.surname}</p>
-      <p>{student.second_name}</p>
     </div>
   );
 }

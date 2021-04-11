@@ -179,8 +179,8 @@ const Projects = () => {
         getProjects();
     }, [value]);
 
-    useEffect(() => {
-        data = await request('/api/pm/student/wanted', 'POST', { userId: auth.userId });
+    useEffect(async () => {
+        const data = await request('/api/pm/student/wanted', 'POST', { userId: auth.userId });
         setStudentsWanted(data);
     }, [])
 

@@ -12,6 +12,7 @@ import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
 import ProjectCard from "../cards/Project";
 import Modal from "../../components/Modal";
+import StudentCard from "../cards/Student";
 
 function TabPanel(props) {
     const {children, value, index, ...other} = props;
@@ -137,18 +138,18 @@ const Students = () => {
     }, []);
 
     const ElementStudent = () => {
-        let boxStudents = [], interationStudents = null;
+        let boxStudents = [], iterationStudents = null;
 
         if (value === 0) {
-            interationStudents = listStudentsOverwatch;
+            iterationStudents = listStudentsOverwatch;
         } else if (value === 1) {
-            interationStudents = listStudentsApply;
+            iterationStudents = listStudentsApply;
         } else {
-            interationStudents = listStudentsOnProjects;
+            iterationStudents = listStudentsOnProjects;
         }
-        interationStudents.forEach((student, index) => {
+        iterationStudents.forEach((student, index) => {
             boxStudents.push(
-                <tr className="student-tr" onClick={() => handleClick(index, interationStudents)} key={index}>
+                <tr className="student-tr" onClick={() => handleClick(index, iterationStudents)} key={index}>
                     <td>
                         <AssignmentIndIcon/>
                     </td>
@@ -266,7 +267,7 @@ const Students = () => {
                         ]
                 }
                 <Modal {...{ open: openStudent, close: closeDialogStudent }}>
-                    <p>{student.name}</p>
+                    <StudentCard student={student}/>
                 </Modal>
             </div>
         );
