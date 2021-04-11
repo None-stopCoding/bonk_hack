@@ -81,5 +81,7 @@ insert into "StudentStatus" VALUES(%s, %s, 'Ожидаемый');
 """
 
 GET_ORGANIZATE_TO_WANT = """
-
+select o.id, o.name from "Organizate" o
+left join "StudentStatus" ss on ss.id_organizate = o.id and ss.id_user = %s
+where ss.status is null and o.id != (select u.org from "User" u where u.id = %s)
 """

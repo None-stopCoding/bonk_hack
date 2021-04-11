@@ -96,7 +96,35 @@ def project_redirect_pls():
     return make_response(json.dumps(send_to_vus(params['userId'], params['projectId'], params['vusId'])))
 
 
+@app.route('/api/pm/student/watch', methods=["POST"])
+def st_watch_pls():
+    params = request.get_json(force=True)
+    return make_response(json.dumps(watch_student(params['userId'], params['orgId'])))
 
+@app.route('/api/pm/student/want', methods=["POST"])
+def st_want_pls():
+    params = request.get_json(force=True)
+    return make_response(json.dumps(want_student(params['userId'], params['orgId'])))
+
+@app.route('/api/pm/student/drop', methods=["POST"])
+def st_drop_pls():
+    params = request.get_json(force=True)
+    return make_response(json.dumps(drop_student(params['userId'], params['orgId'])))
+
+@app.route('/api/pm/student/my', methods=["POST"])
+def st_my_pls():
+    params = request.get_json(force=True)
+    return make_response(json.dumps(get_my_students_organizate(params['orgId'])))
+
+@app.route('/api/pm/student/wanted', methods=["POST"])
+def st_wanted_pls():
+    params = request.get_json(force=True)
+    return make_response(json.dumps(get_wanted_students_organizate(params['orgId'])))
+
+@app.route('/api/student/organizate/wanted', methods=["POST"])
+def st_org_wanted_pls():
+    params = request.get_json(force=True)
+    return make_response(json.dumps(get_organizate_to_want(params['userId'])))
 
 if __name__ == '__main__':
     app.run()
