@@ -128,7 +128,7 @@ def st_my_pls():
 @app.route('/api/pm/student/wanted', methods=["POST"])
 def st_wanted_pls():
     params = request.get_json(force=True)
-    return make_response(json.dumps(get_wanted_students_organizate(params['orgId'])))
+    return make_response(json.dumps(get_wanted_students_organizate(params['userId'])))
 
 @app.route('/api/student/organizate/wanted', methods=["POST"])
 def st_org_wanted_pls():
@@ -160,6 +160,17 @@ def get_all_compet():
     params = request.get_json(force=True)
     data = get_competitions_by_id(params['userId'])
     return make_response(json.dumps(data))
+
+@app.route('/api/student/competence/own', methods=["POST"])
+def st_comp_own_pls():
+    params = request.get_json(force=True)
+    return make_response(json.dumps(get_own_competence(params['userId'])))
+
+@app.route('/api/student/competence/wanted', methods=["POST"])
+def st_comp_wanted_pls():
+    params = request.get_json(force=True)
+    return make_response(json.dumps(get_wanted_competence(params['userId'])))
+
 
 if __name__ == '__main__':
     app.run()

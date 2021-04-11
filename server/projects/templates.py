@@ -76,7 +76,7 @@ select (select "name" from "Role" where "id" = U."role") from "User" AS U where 
 
 
 ADD_STUDENT_TO_PROJECT = """
-insert into "User-Project" VALUES(%s, %s, %s)
+insert into "User-Project" VALUES(%s, %s, %s, 0)
 """
 
 DELETE_PROJECT_TO_STUDENT = """

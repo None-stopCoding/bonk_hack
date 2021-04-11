@@ -39,10 +39,10 @@ def get_mentors():
     return Database().SqlQuery(GET_MENTORS)
 
 def add_student_to_project(id_student, id_project, role):
-    Database().SqlQuery(ADD_STUDENT_TO_PROJECT(id_student, id_project, role))
+    Database().SqlQuery(ADD_STUDENT_TO_PROJECT, id_student, id_project, role)
 
 def delete_student_to_project(id_student, id_project):
-    Database().SqlQuery(DELETE_PROJECT_TO_STUDENT(id_student, id_project))
+    Database().SqlQuery(DELETE_PROJECT_TO_STUDENT, id_student, id_project)
 
 def accept_project(id_student, id_project):
     for i in Database().SqlQuery(GET_OWNER_BY_PROJECT, id_project):
