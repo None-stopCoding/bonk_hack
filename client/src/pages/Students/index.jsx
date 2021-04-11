@@ -97,7 +97,7 @@ const Students = () => {
 
     const getStudentsApply = async (status) => {
         const data = await request(`/api/pm/student/wanted`, 'POST', {
-            userId: auth.userId
+            orgId: auth.orgId
         });
         setStudentsApply(data);
     };
