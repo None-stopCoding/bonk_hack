@@ -31,7 +31,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const App = () => {
-  const {ready, token, login, logout, userId, role} = useAuth();
+  const {ready, token, login, logout, userId, role, orgId} = useAuth();
 	const isAuthenticated = !!token;
   const [open, setOpen] = React.useState(false);
   const routes = useRoutes(isAuthenticated);
@@ -43,7 +43,7 @@ const App = () => {
 
   return (
     <AuthContext.Provider value={{
-      token, login, logout, userId, role, isAuthenticated
+      token, login, logout, userId, role, isAuthenticated, orgId
     }}>
       <Router>
         { isAuthenticated && <Navbar {...{ open, setOpen }} /> }
