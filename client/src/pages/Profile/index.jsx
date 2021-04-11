@@ -210,19 +210,19 @@ const PersonalInformation = () => {
                     <div className="row">
                         <div className="col-4 col-lg-4">
                             <div className="count-data text-center">
-                                <h6 className="count h2" data-to="500" data-speed="500">2</h6>
+                                <h6 className="count h2" data-to="500" data-speed="500">{info.in_work}</h6>
                                 <p className="m-0px font-w-600">Проектов в работе</p>
                             </div>
                         </div>
                         <div className="col-4 col-lg-4">
                             <div className="count-data text-center">
-                                <h6 className="count h2" data-to="150" data-speed="150">3</h6>
+                                <h6 className="count h2" data-to="150" data-speed="150">{info.ready}</h6>
                                 <p className="m-0px font-w-600">Успешно завершенных</p>
                             </div>
                         </div>
                         <div className="col-4 col-lg-4">
                             <div className="count-data text-center">
-                                <h6 className="count h2" data-to="850" data-speed="850">10</h6>
+                                <h6 className="count h2" data-to="850" data-speed="850">{info.comp}</h6>
                                 <p className="m-0px font-w-600">Количество компетенций</p>
                             </div>
                         </div>

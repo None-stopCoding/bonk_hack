@@ -98,9 +98,9 @@ def project_redirect_pls():
 
 @app.route('/api/students/get_by_org', methods=['POST'])
 def get_students():
-    params = request.get_json(forse=True)
+    params = request.get_json(force=True)
     if params.get('projects'):
-        return make_response(json.dumps(get_students_by_org_in_projects([params['id_org']])))
+        return make_response(json.dumps(get_students_by_org_in_projects(params['id_org'])))
     else:
         return make_response(json.dumps(get_students_by_org(params['id_org'])))
 
@@ -134,6 +134,32 @@ def st_wanted_pls():
 def st_org_wanted_pls():
     params = request.get_json(force=True)
     return make_response(json.dumps(get_organizate_to_want(params['userId'])))
+
+@app.route('/api/project/add_competence', methods=['POST'])
+def add_comet():
+    params = request.get_json(force=True)
+    data = add_competence(params['userId'], params['competence'], params['projectId'])
+    return make_response(json.dumps(data))
+
+
+@app.route('/api/project/del_competence', methods=['POST'])
+def add_comet():
+    params = request.get_json(force=True)
+    delete_competence_from_user(params['userId'], params['competence'], params['projectId'])
+    return make_response()
+
+
+@app.route('/api/project/by_user', methods=['POST'])
+def get_all_projects_by_user():
+    params = request.get_json(force=True)
+    data = get_all_projects(params['userId'])
+    return make_response(json.dumps(data))
+
+@app.route('/api/user/competitions', methods=['POST'])
+def get_all_compet():
+    params = request.get_json(force=True)
+    data = get_competitions_by_id(params['userId'])
+    return make_response(json.dumps(data))
 
 @app.route('/api/student/competence/own', methods=["POST"])
 def st_comp_own_pls():
