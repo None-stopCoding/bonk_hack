@@ -82,3 +82,17 @@ select
 from "User" u
 where u.org = %s
 """
+
+GET_STUDENTS_BY_ORG_IN_PROJECTS = """
+select distinct on (u.id)
+	u.id,
+	u.name,
+	u.surname,
+	u.second_name,
+	p.name project_name
+from "Project" p
+join "User-Project" up on up.id_project = p.id
+join "User" u on u.id = up.id_user
+where (p.author = %s or p.subauthor = %s)
+and up.role_in_project != 'Owner' and up.role_in_project != 'Mentor'
+"""

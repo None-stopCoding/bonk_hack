@@ -1,5 +1,6 @@
 from server.users.templates import (AUTHORIZE_BY_LOGIN, ADD_STUDENT_TO_PROJECT, GET_INFO_FOR_PROFILE,
-                                    GET_COMPETITIONS_BY_ID, GET_STUDENTS_ALL, GET_STUDENTS_BY_ORG)
+                                    GET_COMPETITIONS_BY_ID, GET_STUDENTS_ALL, GET_STUDENTS_BY_ORG,
+                                    GET_STUDENTS_BY_ORG_IN_PROJECTS)
 from server.generals import Database
 import uuid
 
@@ -32,3 +33,7 @@ def get_all_students():
 
 def get_students_by_org(id_org):
     return Database().SqlQuery(GET_STUDENTS_BY_ORG, id_org)
+
+
+def get_students_by_org_in_projects(id_org):
+    return Database().SqlQuery(GET_STUDENTS_BY_ORG_IN_PROJECTS, id_org, id_org)

@@ -99,7 +99,10 @@ def project_redirect_pls():
 @app.route('/api/students/get_by_org', methods=['POST'])
 def get_students():
     params = request.get_json(forse=True)
-    return make_response(json.dumps(get_students_by_org(params['id_org'])))
+    if params.get('projects'):
+        return make_response(json.dumps(get_students_by_org_in_projects([params['id_org']])))
+    else:
+        return make_response(json.dumps(get_students_by_org(params['id_org'])))
 
 
 if __name__ == '__main__':
