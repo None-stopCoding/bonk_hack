@@ -6,8 +6,8 @@ import {useHttp} from "../../../hooks/http.hook";
 export default function StudentCard({student}) {
     // const [expanded, setExpanded] = React.useState(false);
     const {request} = useHttp();
-    const [listCompetences, setCompetences] = useState(null);
-    const [listProjects, setProjects] = useState(null);
+    const [listCompetences, setCompetences] = useState([]);
+    const [listProjects, setProjects] = useState([]);
 
     const getCompetences = async (status) => {
         const data = await request('/api/user/competitions', 'POST', {
@@ -25,15 +25,16 @@ export default function StudentCard({student}) {
     }
 
     useEffect(() => {
+        debugger;
         getCompetences();
         getProjects();
     }, []);
 
     function projects() {
         let listProjects_ = []
-        if (listProjects) {
+        if (listProjects.length > 0) {
             let counter = 1
-            listProjects_.forEach((project) => {
+            listProjects.forEach((project) => {
                 listProjects_.push(
                     <tr>
                         <td>{counter}</td>
@@ -43,30 +44,36 @@ export default function StudentCard({student}) {
                     </tr>
                 )
                 counter++;
-                return (
-                    <div className="container">
-                        <div className="row align-items-center flex-row justify-content-center">
-                            <div className="fresh-table full-color-orange">
-                                <table id="fresh-table" className="table">
-                                    <thead>
-                                    <th data-field="id">ID</th>
-                                    <th data-field="name">Название</th>
-                                    <th data-field="desc">Автор</th>
-                                    <th data-field="project">Статус</th>
-                                    </thead>
-                                    <tbody>
-                                    {listProjects_}
-                                    </tbody>
-                                </table>
-                            </div>
+            })
+            return (
+                <div className="container">
+                    <div className="row align-items-center flex-row justify-content-center">
+                        <h4>Проекты</h4>
+                        <div className="fresh-table full-color-orange">
+                            <table id="fresh-table" className="table">
+                                <thead>
+                                <th data-field="id">ID</th>
+                                <th data-field="name">Название</th>
+                                <th data-field="desc">Автор</th>
+                                <th data-field="project">Статус</th>
+                                </thead>
+                                <tbody>
+                                {listProjects_}
+                                </tbody>
+                            </table>
                         </div>
                     </div>
-                )
-            })
+                </div>
+            )
         }
         return (
             <div className="container">
                 <div className="row align-items-center flex-row justify-content-center">
+                    <h4>Проекты</h4>
+                    <div className="fresh-table full-color-orange">
+                        <table id="fresh-table" className="table">
+                        </table>
+                    </div>
                 </div>
             </div>
         )
@@ -74,7 +81,8 @@ export default function StudentCard({student}) {
 
     function competence() {
         let listCompetences_ = [];
-        if (listCompetences) {
+        debugger
+        if (listCompetences.length > 0) {
             let counter = 1
             listCompetences.forEach((competence) => {
                 listCompetences_.push(
@@ -85,44 +93,50 @@ export default function StudentCard({student}) {
                     </tr>
                 )
                 counter++;
-                return (
-                    <div className="container">
-                        <div className="row align-items-center flex-row justify-content-center">
-                            <div className="fresh-table full-color-orange">
-                                <table id="fresh-table" className="table">
-                                    <thead>
-                                    <th data-field="id">ID</th>
-                                    <th data-field="name">Название</th>
-                                    <th data-field="desc">Описание</th>
-                                    <th data-field="project">Проект</th>
-                                    </thead>
-                                    <tbody>
-                                    {listCompetences_}
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                )
             })
-        }
             return (
                 <div className="container">
                     <div className="row align-items-center flex-row justify-content-center">
+                        <h4>Компоненты</h4>
+                        <div className="fresh-table full-color-orange">
+                            <table id="fresh-table" className="table">
+                                <thead>
+                                <th data-field="id">ID</th>
+                                <th data-field="name">Название</th>
+                                <th data-field="desc">Описание</th>
+                                <th data-field="project">Проект</th>
+                                </thead>
+                                <tbody>
+                                {listCompetences_}
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             )
+        }
+        return (
+            <div className="container">
+                <div className="row align-items-center flex-row justify-content-center">
+                    <h4>Компоненты</h4>
+                    <div className="fresh-table full-color-orange">
+                        <table id="fresh-table" className="table">
+                        </table>
+                    </div>
+                </div>
+            </div>
+        )
     }
 
     return (
-        [
+        <div>
             <div className="student-card">
                 <Typography variant="h5" color="primary" component="h2">
                     {` ${student.name || ''} ${student.second_name || ''} ${student.surname || ''}`}
                 </Typography>
-            </div>,
-            competence(),
-            projects()
-        ]
+            </div>
+            {competence()}
+            {projects()}
+        </div>
     );
 }
