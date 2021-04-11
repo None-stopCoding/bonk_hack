@@ -43,7 +43,7 @@ def drop_student(user_id, org_id):
     Database().SqlQuery(DROP_STUDENT, org_id, user_id)
 
 def want_student(user_id, org_id):
-    Database().SqlQuery(WANT_STUDENT, user_id, org_id)
+    Database().SqlQuery(WANT_STUDENT, org_id, user_id)
 
 
 
