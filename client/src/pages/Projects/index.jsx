@@ -77,13 +77,13 @@ const useStyles = makeStyles((theme) => ({
         left: 0
     },
     projectList: {
-        width: '50vw'
+        margin: '0 30px',
+        width: '100%'
     },
     addProject: {
         width: 182,
-        height: 74,
         fontSize: 16,
-        marginLeft: 300
+        marginRight: 40
     },
     formCreate: {
         flexDirection: 'column'
@@ -190,7 +190,7 @@ const Projects = () => {
 
     const openProjectModal = async (project) => {
         const data = await request(`/api/project`, 'POST', {
-            id: project.id,
+            id: project.id
         });
 
         setCurProject(data);
@@ -244,23 +244,35 @@ const Projects = () => {
             <div className={classes.projectWrapper}>
                 <div className={classes.projectList}>
                 <AppBar position="static" color="default">
-                    <Tabs
-                        value={value}
-                        onChange={handleChange}
-                        variant="scrollable"
-                        scrollButtons="on"
-                        indicatorColor="primary"
-                        textColor="primary"
-                        aria-label="scrollable force tabs example"
-                    >
-                        {
-                            getItemsByRole().map((item, index) => {
-                                return (
-                                    <Tab key={index} label={item} icon={<AssignmentIcon />} {...a11yProps(index)} />            
-                                )
-                            })
-                        }
-                    </Tabs>
+                    <div className='row'>
+                        <div className="col">
+                            <Tabs
+                                value={value}
+                                onChange={handleChange}
+                                variant="scrollable"
+                                scrollButtons="on"
+                                indicatorColor="primary"
+                                textColor="primary"
+                                aria-label="scrollable force tabs example"
+                            >
+                                {
+                                    getItemsByRole().map((item, index) => {
+                                        return (
+                                            <Tab key={index} label={item} icon={<AssignmentIcon />} {...a11yProps(index)} />            
+                                        )
+                                    })
+                                }
+                            </Tabs>
+                        </div>
+                        <div className="col d-flex align-items-center justify-content-end">
+                            {
+                                auth.role === 'Project manager' ?
+                                <Button variant="contained" color="primary" className={classes.addProject} onClick={createProject}>
+                                    Создать проект
+                                </Button> : <></>
+                            }
+                        </div>
+                    </div>
                 </AppBar>
                 
                 {
@@ -290,13 +302,6 @@ const Projects = () => {
                     })
                 }
                 </div>
-
-                {
-                    auth.role === 'Project manager' ?
-                    <Button variant="contained" color="primary" className={classes.addProject} onClick={createProject}>
-                        Создать проект
-                    </Button> : <></>
-                }
             </div>
         {
             curProject &&

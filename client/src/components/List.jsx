@@ -25,8 +25,7 @@ const useStyles = makeStyles((theme) => ({
     },
     projectItemAuthor: {
         position: 'absolute',
-        left: 400,
-        width: '100%'
+        left: 400
     },
     projectItemButtons: {
         alignSelf: 'flex-end'
