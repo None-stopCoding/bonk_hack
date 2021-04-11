@@ -180,7 +180,7 @@ const Projects = () => {
     }, [value]);
 
     useEffect(async () => {
-        let data = await request('/api/pm/student/wanted', 'POST', { userId: auth.userId });
+        let data = await request('/api/pm/student/wanted', 'POST', { orgId: auth.orgId });
         setStudentsWanted(data);
 
         data = await request('/api/vus/all', 'POST', {});
