@@ -17,6 +17,7 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 
 import {AuthContext} from '../../../context/AuthContext';
+import StudentsCard from "./summplement";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -104,7 +105,7 @@ export default function ProjectCard({ project }) {
         true ?
         <Collapse in={expanded} timeout="auto" unmountOnExit>
           <CardContent>
-            
+            <StudentsCard project={project}/>
           </CardContent>
         </Collapse> : <></>
       }

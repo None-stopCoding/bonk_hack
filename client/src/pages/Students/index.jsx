@@ -88,7 +88,6 @@ const Students = () => {
 
 
     const getStudentsOverwatch = async (status) => {
-        debugger;
         const data = await request(`/api/pm/student/my`, 'POST', {
             orgId: auth.orgId
         });
@@ -97,7 +96,7 @@ const Students = () => {
 
     const getStudentsApply = async (status) => {
         const data = await request(`/api/pm/student/wanted`, 'POST', {
-            userId: auth.userId
+            orgId: auth.orgId
         });
         setStudentsApply(data);
     };
@@ -116,7 +115,6 @@ const Students = () => {
     }
 
     const closeDialogStudent = () => {
-        debugger;
         setOpenStudent(false);
     }
 

@@ -142,7 +142,7 @@ def st_my_pls():
 @app.route('/api/pm/student/wanted', methods=["POST"])
 def st_wanted_pls():
     params = request.get_json(force=True)
-    return make_response(json.dumps(get_wanted_students_organizate(params['userId'])))
+    return make_response(json.dumps(get_wanted_students_organizate(params['orgId'])))
 
 
 @app.route('/api/student/organizate/wanted', methods=["POST"])
@@ -191,7 +191,7 @@ def st_comp_wanted_pls():
     return make_response(json.dumps(get_wanted_competence(params['userId'])))
 
 
-@app.route('/api/project/students/')
+@app.route('/api/project/students', methods=["POST"])
 def get_students_all_project_id():
     params = request.get_json(force=True)
     return make_response(json.dumps(get_students_by_project(params['project_id'])))

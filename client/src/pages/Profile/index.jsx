@@ -163,9 +163,9 @@ const PersonalInformation = () => {
                         <div className="about-text go-to">
                             <h3 className="dark-color">Профиль:</h3>
                             <h6 className="theme-color lead"></h6>
-                            <p>
+                            {/* <p>
                                 Сюда можно что-то вставить!
-                            </p>
+                            </p> */}
                             <div className="row about-list">
                                 <div className="col-md-6">
                                     <div className="media">
@@ -181,8 +181,8 @@ const PersonalInformation = () => {
                                         <p>{info.second_name}</p>
                                     </div>
                                 </div>
-                                <div className="col-md-6">
-                                    <div className="media">
+                                {/* <div className="col-md-6"> */}
+                                    {/* <div className="media">
                                         <label>Тест 1</label>
                                         <p>Тест 1</p>
                                     </div>
@@ -197,8 +197,8 @@ const PersonalInformation = () => {
                                     <div className="media">
                                         <label>Тест 1</label>
                                         <p>Тест 1</p>
-                                    </div>
-                                </div>
+                                    </div> */}
+                                {/* </div> */}
                             </div>
                         </div>
                     </div>

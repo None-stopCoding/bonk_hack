@@ -57,7 +57,6 @@ function a11yProps(index) {
 const useStyles = makeStyles((theme) => ({
     root: {
       backgroundColor: theme.palette.background.paper,
-      width: 1300,
     },
     spinnerWrapper: {
         display: 'flex',
@@ -180,7 +179,7 @@ const Projects = () => {
     }, [value]);
 
     useEffect(async () => {
-        let data = await request('/api/pm/student/wanted', 'POST', { userId: auth.userId });
+        let data = await request('/api/pm/student/wanted', 'POST', { orgId: auth.orgId });
         setStudentsWanted(data);
 
         data = await request('/api/vus/all', 'POST', {});
@@ -346,10 +345,11 @@ const Projects = () => {
                                 labelId="demo-simple-select-helper-label"
                                 id="demo-simple-select-helper"
                                 name="studentId"
+                                value={dialogResult.studentId}
                                 onChange={changeDialogResult}
                             >
                             {
-                                studentsWanted.map((item, index) => <MenuItem value={item.id_user} key={index}>{`${item.surname} ${item.name}`}</MenuItem>)
+                                studentsWanted.map((item, index) => <MenuItem value={item.id} key={index}>{`${item.surname} ${item.name}`}</MenuItem>)
                             }
                             </Select>
                             <FormHelperText>Выберите студента для участия в проекте</FormHelperText>
