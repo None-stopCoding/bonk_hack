@@ -1,3 +1,3 @@
 from server.projects.projects import *
 
-print(accept_project(1, 2))
+print(send_project(1, 3))
