@@ -24,6 +24,7 @@ export const useAuth = () => {
         setToken(null);
         setUserId(null);
         setRole(null);
+        setOrgId(null);
         localStorage.removeItem(storageName);
     }, []);
 
