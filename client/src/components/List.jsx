@@ -11,9 +11,9 @@ import { makeStyles, useTheme } from '@material-ui/core/styles';
 import {useHttp} from '../hooks/http.hook';
 import {AuthContext} from '../context/AuthContext';
 
-const getContentByOption = (item, option, contentOptions, reload) => {
+const getContentByOption = (item, option, contentOptions) => {
     switch (option) {
-        case 'project': return <ProjectItem {...{ item, ...contentOptions, reload }}/>
+        case 'project': return <ProjectItem {...{ item, ...contentOptions }}/>
     }
 };
 
@@ -36,15 +36,15 @@ const useStyles = makeStyles((theme) => ({
     }
   }));
 
-const ProjectItem = ({ item, status, reload }) => {
+const ProjectItem = ({ item, status, reload, dialog }) => {
     const classes = useStyles();
     const { request } = useHttp();
     const auth = useContext(AuthContext);
 
     const getActionsByRole = (project) => {
         const requestDefaultBody = {
-            userId: auth.userId,
-            projectId: project.id
+            userId: Number(auth.userId),
+            projectId: Number(project.id)
         };
 
         switch (auth.role) {
@@ -73,9 +73,25 @@ const ProjectItem = ({ item, status, reload }) => {
                 switch (status) {
                     case 'Новые проекты': return [
                         {
-                            name: 'Пригласить'
+                            name: 'Пригласить',
+                            action: () => {
+                                dialog.changeDialogContent('chooseStudentToInvite');
+                                dialog.open();
+
+                                return request('/api/project/pm/invite', 'POST', {
+                                    projectId: project.id,
+                                    studentId: dialog.result.studentId,
+                                    projectRole: dialog.result.projectRole
+                                })
+                            }
                         }, {
-                            name: 'Передать'
+                            name: 'Передать',
+                            action: () => {
+                                dialog.changeDialogContent('chooseUniversityToSendProject');
+                                dialog.open();
+
+                                return request();
+                            }
                         }, {
                             name: "Удалить"
                         }
@@ -120,12 +136,16 @@ const ProjectItem = ({ item, status, reload }) => {
     );
 };
 
-const CustomList = ({ items, onItemClick, content, contentOptions, reload }) => {
+const CustomList = ({ items, onItemClick, content, contentOptions }) => {
     const [openDialog, setOpenDialog] = useState(false);
 
     const openHelpDialog = () => {
         setOpenDialog(true);
     }
+
+    const dialogOptions = {
+        openDialog
+    };
 
     return (
         <>
@@ -135,39 +155,13 @@ const CustomList = ({ items, onItemClick, content, contentOptions, reload }) => 
                         return (
                             <ListItem button key={index} onClick={() => onItemClick(item)}>
                                 {
-                                    getContentByOption(item, content, contentOptions, reload, openHelpDialog)
+                                    getContentByOption(item, content, contentOptions)
                                 }
                             </ListItem>
                         )
                     })
                 }
             </List>
-            {/* <Dialog {...{
-                open: openDialog,
-                close: closeDialog,
-                title: 'Создание проекта',
-                titleAction: 'Создать'
-            }}>
-                <form className={classes.formCreate} noValidate autoComplete="off">
-                    <TextField id="outlined-basic" name="name" label="Название проекта" variant="outlined" onChange={changeCreateFormHandler}/>
-                    <TextField id="outlined-basic" name="documents" label="Документы" variant="outlined" onChange={changeCreateFormHandler}/>
-                    <FormControl className={classes.formControl}>
-                        <InputLabel id="demo-simple-select-helper-label">Наставник</InputLabel>
-                        <Select
-                        labelId="demo-simple-select-helper-label"
-                        id="demo-simple-select-helper"
-                        name="mentor"
-                        value={mentors.find((mentor) => mentor.id === createForm.mentor)?.name}
-                        onChange={changeCreateFormHandler}
-                        >
-                        {
-                            mentors.map((item, index) => <MenuItem value={item.id} key={index}>{`${item.surname} ${item.name} ${item.second_name}`}</MenuItem>)
-                        }
-                        </Select>
-                        <FormHelperText>Выберите наставника проекта</FormHelperText>
-                    </FormControl>
-                </form>
-            </Dialog> */}
         </>
     )
 };
