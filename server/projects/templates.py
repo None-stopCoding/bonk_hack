@@ -125,3 +125,19 @@ INNER JOIN "User" user_2 ON user_2.id = project.author
 WHERE project.id = %s
 and not (user_.name = user_2.name and user_.surname = user_2.surname and user_.second_name = user_2.second_name)
 """
+
+GET_ID_COMPET_BY_NAME = """
+SELECT id from "Competence" where name = %s
+"""
+
+INSERT_COMPET = """
+insert into "Competence" (name) values (%s) returning id
+"""
+
+ADD_COMPET_IN_USER = """
+insert into "User-Competence" (id_user, id_competence, id_project) values (%s, %s, %s) returning id_competence
+"""
+
+DELETE_COMPET_USER = """
+delete from "User-Competence" where id_user = %s and id_competence = %s and id_project = %s
+"""

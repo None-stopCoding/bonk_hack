@@ -58,3 +58,13 @@ def get_all_vus():
 
 def delete_project(id_project):
     Database().SqlQuery(CHANGE_PROJECT_STATUS, id_project, id_project)
+
+def add_competence(student_id, compet, project_id):
+    db = Database()
+    id_compet = db.SqlQueryScalar(GET_ID_COMPET_BY_NAME, compet)
+    if not id_compet:
+        id_compet = db.SqlQueryScalar(INSERT_COMPET, compet)
+    return db.SqlQueryRecord(ADD_COMPET_IN_USER, student_id, id_compet, project_id)
+
+def delete_competence_from_user(user_id, compet_id, project_id):
+    Database().SqlQuery(DELETE_COMPET_USER, user_id, compet_id, project_id)
