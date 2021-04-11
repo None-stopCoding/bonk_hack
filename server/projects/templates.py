@@ -115,10 +115,12 @@ project.documents "project_doc",
 (select status from "User-Project" up where up.id_project = project.id and role_in_project = 'Owner' limit 1) "project_status",
 user_2.name "author_name", 
 user_2.surname "author_surname", 
-user_2.second_name "author_second_name"
+user_2.second_name "author_second_name",
+o.name business_name
 FROM "Project" project
 INNER JOIN "User-Project" user_project ON user_project.id_project = project.id
 INNER JOIN "User" user_2 ON user_2.id = project.author
+join "Organizate" o on o.id = project.author
 
 WHERE project.id = %s
 """
