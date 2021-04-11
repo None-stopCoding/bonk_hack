@@ -3,7 +3,7 @@
 # получить всех студентов
 # params: NO PARAMS
 GET_STUDENTS_ALL = """
-SELECT U."name" name_user, U."surname", U."second_name", O."name" name_org FROM 
+SELECT U.id, U."name" name_user, U."surname", U."second_name", O."name" name_org FROM 
 "User" AS U INNER JOIN "Organizate" AS O
 ON U.id = (SELECT UO.id_user FROM "User-Organizate" AS UO WHERE UO.id_user = U.id and UO.id_organizate = O.id) 
 and O.id = (SELECT UO.id_organizate FROM "User-Organizate" AS UO WHERE UO.id_user = U.id and UO.id_organizate = O.id) 
@@ -70,4 +70,16 @@ where u.id = %s
 
 GET_COMPETITIONS_BY_ID = """
 select c.name, c.comment from "Competence" c join "User-Competence" uc on uc.id_competence = c.id and uc.id_user = %s
+"""
+
+GET_STUDENTS_BY_ORG = """
+select 
+	u.surname,
+	u.name,
+	u.second_name,
+	o.name org_name
+from "User" u
+join "User-Organizate" uo on uo.id_user = u.id
+join "Organizate" o on uo.id_organizate = o.id
+where o.id = %s
 """

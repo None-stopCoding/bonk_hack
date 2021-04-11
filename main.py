@@ -81,6 +81,10 @@ def project_decline_pls():
     return make_response(json.dumps(delete_student_to_project(params['userId'], params['projectId'])))
 
 
+@app.route('/api/students/get_by_org', methods=['POST'])
+def get_students():
+    params = request.get_json(forse=True)
+    return make_response(json.dumps(get_students_by_org(params['id_org'])))
 
 
 if __name__ == '__main__':
