@@ -58,6 +58,16 @@ def get_students_all():
     params = request.get_json(force=True)
     return make_response(json.dumps(get_all_students()))
 
+@app.route('/api/project/accept', methods=["POST"])
+def project_accept_pls():
+    params = request.get_json(force=True)
+    return make_response(json.dumps(add_student_to_project(params['userId'], params['projectId'], params['role'])))
+
+@app.route('/api/project/decline', methods=["POST"])
+def project_decline_pls():
+    params = request.get_json(force=True)
+    return make_response(json.dumps(delete_student_to_project(params['userId'], params['projectId'])))
+
 
 if __name__ == '__main__':
     app.run()

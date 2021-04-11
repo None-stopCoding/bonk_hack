@@ -57,12 +57,25 @@ GET_MENTORS = """
 select * from "User" where "role" = 3
 """
 
+GET_STUDENT = """
+select * from "User" where "role" = 1
+"""
+
 ADD_MENTOR = """
 insert into "User-Project" VALUES((select "mentor" from "Project" where "id" = %s), %s, 'Mentor', 0)
 """
 
 GET_ROLE = """
 select (select "name" from "Role" where "id" = U."role") from "User" AS U where "id" = %s;
+"""
+
+
+ADD_STUDENT_TO_PROJECT = """
+insert into "User-Project" VALUES(%s, %s, %s)
+"""
+
+DELETE_PROJECT_TO_STUDENT = """
+delete from "User-Project" WHERE "id_user" = %s and "id_project" = %s;
 """
 
 CREATE_PROJECT = """

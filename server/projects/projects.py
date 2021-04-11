@@ -38,3 +38,8 @@ def send_to_vus(id_user, id_project, id_vus):
 def get_mentors():
     return Database().SqlQuery(GET_MENTORS)
 
+def add_student_to_project(id_student, id_project, role):
+    Database().SqlQuery(ADD_STUDENT_TO_PROJECT(id_student, id_project, role))
+
+def delete_student_to_project(id_student, id_project):
+    Database().SqlQuery(DELETE_PROJECT_TO_STUDENT(id_student, id_project))
