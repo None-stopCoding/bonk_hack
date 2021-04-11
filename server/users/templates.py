@@ -41,7 +41,7 @@ delete from "User-Project" WHERE "id_user" = %s and "id_project" = %s;
 # авторизация
 # params: [login студента, password студента]
 AUTHORIZE_BY_LOGIN = """
-SELECT U."id", R."name" AS role FROM 
+SELECT U."id", U."org", R."name" AS role FROM 
 "User" AS U inner join "Role" AS R
 ON U."role" = R."id"
 where "login" = %s and "password" = %s
