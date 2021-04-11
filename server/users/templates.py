@@ -115,7 +115,8 @@ select
 	u.surname,
 	u.second_name
 from "User" u
-join "StudentStatus" ss on ss.id_organizate = %s and ss.status = 'Ожидаемый'
+join "StudentStatus" ss on ss.id_organizate = %s and ss.id_user = u.id
+where ss.status = 'Ожидаемый'
 """
 
 
