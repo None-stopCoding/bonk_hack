@@ -45,8 +45,8 @@ def delete_student_to_project(id_student, id_project):
     Database().SqlQuery(DELETE_PROJECT_TO_STUDENT(id_student, id_project))
 
 def accept_project(id_student, id_project):
-    for i in Database().SqlQueryRecord(GET_OWNER_BY_PROJECT, id_project):
-        Database().SqlQuery(CHANGE_PROJECT_STATUS, 1, i["id_user"], id_project)
+    for i in Database().SqlQuery(GET_OWNER_BY_PROJECT, id_project):
+        Database().SqlQuery(CHANGE_PROJECT_STATUS, 1, int(i["id_user"]), id_project)
     Database().SqlQuery(CHANGE_PROJECT_STATUS, 1, id_student, id_project)
 
 def send_project(id_student, id_project):
