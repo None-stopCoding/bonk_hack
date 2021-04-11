@@ -109,6 +109,7 @@ const Projects = () => {
 
     const [mentors, setMentors] = useState([]);
     const [studentsWanted, setStudentsWanted] = useState([]);
+    const [universities, setUniversities] = useState([]);
 
     const [createForm, updateCreateProjectForm] = useState(defaultCreateForm);
 
@@ -127,10 +128,9 @@ const Projects = () => {
         setDialogResult({...dialogResult, [event.target.name]: event.target.value })
     };
 
-    const onDialogOpen = async (content, afterCloseAction_) => {
+    const onDialogOpen = (extra) => {
+        setDialogResult({ ...dialogResult, ...extra });
         setOpenDialog(true);
-        setAfterCloseAction(afterCloseAction_);
-        let data = [];
     };
     useEffect(() => {
         const config = {
@@ -180,9 +180,12 @@ const Projects = () => {
     }, [value]);
 
     useEffect(async () => {
-        const data = await request('/api/pm/student/wanted', 'POST', { userId: auth.userId });
+        let data = await request('/api/pm/student/wanted', 'POST', { userId: auth.userId });
         setStudentsWanted(data);
-    }, [])
+
+        data = await request('/api/vus/all', 'POST', {});
+        setUniversities(data);
+    }, []);
 
 
     const openProjectModal = async (project) => {
@@ -208,7 +211,6 @@ const Projects = () => {
 
     const closeDialog = async () => {
         setOpenDialog(false);
-        debugger;
 
         switch (dialogContent) {
             case 'createProject':
@@ -217,13 +219,23 @@ const Projects = () => {
                 updateCreateProjectForm(defaultCreateForm);
                 break;
             case 'chooseStudentToInvite':
-                if (afterCloseAction instanceof Function) {
-                    afterCloseAction(dialogResult);
-                    setAfterCloseAction(() => {});
-                }
+                await request('/api/project/pm/invite', 'POST', {
+                    projectId: dialogResult.projectId,
+                    studentId: dialogResult.studentId,
+                    projectRole: dialogResult.projectRole
+                });
                 setDialogResult({});
+                changeDialogContent('createProject');
                 break;
-
+            case 'chooseUniversityToSendProject':
+                await request('/api/project/pm/redirect', 'POST', {
+                    userId: auth.userId,
+                    projectId: dialogResult.projectId,
+                    vusId: dialogResult.vusId
+                });
+                setDialogResult({});
+                changeDialogContent('createProject');
+                break;
         }
     };
 
@@ -326,21 +338,36 @@ const Projects = () => {
                         <FormControl className={classes.formControl}>
                             <InputLabel id="demo-simple-select-helper-label">Студент</InputLabel>
                             <Select
-                            labelId="demo-simple-select-helper-label"
-                            id="demo-simple-select-helper"
-                            name="studentId"
-                            value={studentsWanted.find((student) => student.id === dialogResult.studentId)?.name}
-                            onChange={changeDialogResult}
+                                labelId="demo-simple-select-helper-label"
+                                id="demo-simple-select-helper"
+                                name="studentId"
+                                onChange={changeDialogResult}
                             >
                             {
-                                studentsWanted.map((item, index) => <MenuItem value={item.id} key={index}>{`${item.surname} ${item.name} ${item.second_name}`}</MenuItem>)
+                                studentsWanted.map((item, index) => <MenuItem value={item.id_user} key={index}>{`${item.surname} ${item.name}`}</MenuItem>)
+                            }
+                            </Select>
+                            <FormHelperText>Выберите студента для участия в проекте</FormHelperText>
+                        </FormControl>
+                    </form> :
+                dialogContent === 'chooseUniversityToSendProject' ?
+                    <form className={classes.formCreate} noValidate autoComplete="off">
+                        <FormControl className={classes.formControl}>
+                            <InputLabel id="demo-simple-select-helper-label">Университет</InputLabel>
+                            <Select
+                                labelId="demo-simple-select-helper-label"
+                                id="demo-simple-select-helper"
+                                name="vusId"
+                                value={universities.find((student) => student.id === dialogResult.vusId)?.name}
+                                onChange={changeDialogResult}
+                            >
+                            {
+                                universities.map((item, index) => <MenuItem value={item.id} key={index}>{`${item.name}`}</MenuItem>)
                             }
                             </Select>
                             <FormHelperText>Выберите стулента дял участия в проекте</FormHelperText>
                         </FormControl>
-                    </form> :
-                dialogContent === 'chooseUniversityToSendProject' ?
-                    <div>university</div> : <></>
+                    </form> : <></>
             }
         </Dialog>
         </div>
