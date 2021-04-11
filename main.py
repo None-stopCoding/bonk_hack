@@ -148,5 +148,18 @@ def add_comet():
     delete_competence_from_user(params['userId'], params['competence'], params['projectId'])
     return make_response()
 
+
+@app.route('/api/project/by_user', methods=['POST'])
+def add_comet():
+    params = request.get_json(force=True)
+    data = get_all_projects(params['userId'])
+    return make_response(json.dumps(data))
+
+@app.route('/api/user/competitions', methods=['POST'])
+def add_comet():
+    params = request.get_json(force=True)
+    data = get_competitions_by_id(params['userId'])
+    return make_response(json.dumps(data))
+
 if __name__ == '__main__':
     app.run()

@@ -68,3 +68,6 @@ def add_competence(student_id, compet, project_id):
 
 def delete_competence_from_user(user_id, compet_id, project_id):
     Database().SqlQuery(DELETE_COMPET_USER, user_id, compet_id, project_id)
+
+def get_all_projects(user_id):
+    return Database().SqlQuery(GET_PROJECT_BY_USER, user_id)
