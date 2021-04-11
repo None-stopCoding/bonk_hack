@@ -44,7 +44,7 @@ const ProjectItem = ({ item, status, reload }) => {
     const getActionsByRole = (project) => {
         const requestDefaultBody = {
             userId: auth.userId,
-            projecId: project.id
+            projectId: project.id
         };
 
         switch (auth.role) {
@@ -121,20 +121,54 @@ const ProjectItem = ({ item, status, reload }) => {
 };
 
 const CustomList = ({ items, onItemClick, content, contentOptions, reload }) => {
+    const [openDialog, setOpenDialog] = useState(false);
+
+    const openHelpDialog = () => {
+        setOpenDialog(true);
+    }
+
     return (
-        <List component="nav" aria-label="main mailbox folders">
-            {
-                items.map((item, index) => {
-                    return (
-                        <ListItem button key={index} onClick={() => onItemClick(item)}>
-                            {
-                                getContentByOption(item, content, contentOptions, reload)
-                            }
-                        </ListItem>
-                    )
-                })
-            }
-        </List>
+        <>
+            <List component="nav" aria-label="main mailbox folders">
+                {
+                    items.map((item, index) => {
+                        return (
+                            <ListItem button key={index} onClick={() => onItemClick(item)}>
+                                {
+                                    getContentByOption(item, content, contentOptions, reload, openHelpDialog)
+                                }
+                            </ListItem>
+                        )
+                    })
+                }
+            </List>
+            {/* <Dialog {...{
+                open: openDialog,
+                close: closeDialog,
+                title: 'Создание проекта',
+                titleAction: 'Создать'
+            }}>
+                <form className={classes.formCreate} noValidate autoComplete="off">
+                    <TextField id="outlined-basic" name="name" label="Название проекта" variant="outlined" onChange={changeCreateFormHandler}/>
+                    <TextField id="outlined-basic" name="documents" label="Документы" variant="outlined" onChange={changeCreateFormHandler}/>
+                    <FormControl className={classes.formControl}>
+                        <InputLabel id="demo-simple-select-helper-label">Наставник</InputLabel>
+                        <Select
+                        labelId="demo-simple-select-helper-label"
+                        id="demo-simple-select-helper"
+                        name="mentor"
+                        value={mentors.find((mentor) => mentor.id === createForm.mentor)?.name}
+                        onChange={changeCreateFormHandler}
+                        >
+                        {
+                            mentors.map((item, index) => <MenuItem value={item.id} key={index}>{`${item.surname} ${item.name} ${item.second_name}`}</MenuItem>)
+                        }
+                        </Select>
+                        <FormHelperText>Выберите наставника проекта</FormHelperText>
+                    </FormControl>
+                </form>
+            </Dialog> */}
+        </>
     )
 };
 

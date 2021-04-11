@@ -61,7 +61,7 @@ def get_students_all():
 @app.route('/api/project/pm/invite', methods=["POST"])
 def project_invite_pls():
     params = request.get_json(force=True)
-    return make_response(json.dumps(add_student_to_project(params['userId'], params['projectId'], params['role'])))
+    return make_response(json.dumps(add_student_to_project(params['studentId'], params['projectId'], params['projectRole'])))
 
 @app.route('/api/project/student/accept', methods=["POST"])
 def project_accept_pls():
@@ -104,6 +104,36 @@ def get_students():
     else:
         return make_response(json.dumps(get_students_by_org(params['id_org'])))
 
+
+@app.route('/api/pm/student/watch', methods=["POST"])
+def st_watch_pls():
+    params = request.get_json(force=True)
+    return make_response(json.dumps(watch_student(params['userId'], params['orgId'])))
+
+@app.route('/api/pm/student/want', methods=["POST"])
+def st_want_pls():
+    params = request.get_json(force=True)
+    return make_response(json.dumps(want_student(params['userId'], params['orgId'])))
+
+@app.route('/api/pm/student/drop', methods=["POST"])
+def st_drop_pls():
+    params = request.get_json(force=True)
+    return make_response(json.dumps(drop_student(params['userId'], params['orgId'])))
+
+@app.route('/api/pm/student/my', methods=["POST"])
+def st_my_pls():
+    params = request.get_json(force=True)
+    return make_response(json.dumps(get_my_students_organizate(params['orgId'])))
+
+@app.route('/api/pm/student/wanted', methods=["POST"])
+def st_wanted_pls():
+    params = request.get_json(force=True)
+    return make_response(json.dumps(get_wanted_students_organizate(params['orgId'])))
+
+@app.route('/api/student/organizate/wanted', methods=["POST"])
+def st_org_wanted_pls():
+    params = request.get_json(force=True)
+    return make_response(json.dumps(get_organizate_to_want(params['userId'])))
 
 if __name__ == '__main__':
     app.run()

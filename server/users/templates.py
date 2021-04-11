@@ -3,12 +3,16 @@
 # получить всех студентов
 # params: NO PARAMS
 GET_STUDENTS_ALL = """
+<<<<<<< HEAD
 SELECT U.id, U."name" name_user, U."surname", U."second_name", O."name" name_org FROM 
 "User" AS U INNER JOIN "Organizate" AS O
 ON U.id = (SELECT UO.id_user FROM "User-Organizate" AS UO WHERE UO.id_user = U.id and UO.id_organizate = O.id) 
 and O.id = (SELECT UO.id_organizate FROM "User-Organizate" AS UO WHERE UO.id_user = U.id and UO.id_organizate = O.id) 
 and (SELECT UO.status FROM "User-Organizate" AS UO WHERE UO.id_user = U.id and UO.id_organizate = O.id) = 'Участник'
 WHERE "role" = 1 
+=======
+select U."name", "surname", "second_name", O."name" from "User" AS U inner join "Organizate" AS O on "org" = O."id" where role = 1
+>>>>>>> origin/client
 """
 
 # получить студента по id
@@ -36,17 +40,7 @@ DELETE_PROJECT_TO_STUDENT = """
 delete from "User-Project" WHERE "id_user" = %s and "id_project" = %s;
 """
 
-# добавить студента в избраное
-# params: [id организации, id студента]
-WATCH_STUDENT = """
-insert into "User-Organizate" VALUES(%s, %s, 'Наблюдаемый');
-"""
 
-# удалить студента из избранного
-# params: [id организации, id студента]
-UNWATCH_STUDENT = """
-delete from "User-Organizate" where "id_organizate" = %s and "id_user" = %s;
-"""
 
 # авторизация
 # params: [login студента, password студента]
@@ -95,4 +89,33 @@ join "User-Project" up on up.id_project = p.id
 join "User" u on u.id = up.id_user
 where (p.author = %s or p.subauthor = %s)
 and up.role_in_project != 'Owner' and up.role_in_project != 'Mentor'
+"""
+
+GET_MY_STUDENTS_ORGANIZATE = """
+select (select "name" from "User" where "id" = "id_user"), (select "surname" from "User" where "id" = "id_user") from "StudentStatus" where "id_organizate" = %s and "status" = 'Наблюдаемый'
+union 
+select "name", "surname" from "User" where "org" = %s and role = 1
+"""
+
+GET_WANTED_STUDENTS_ORGANIZATE = """
+select (select "name" from "User" where "id" = "id_user"), (select "surname" from "User" where "id" = "id_user") from "StudentStatus" where "id_organizate" = %s and "status" = 'Ожидаемый';
+"""
+
+
+WATCH_STUDENT = """
+insert into "StudentStatus" VALUES(%s, %s, 'Наблюдаемый');
+"""
+
+DROP_STUDENT = """
+delete from "StudentStatus" where "id_organizate" = %s and "id_user" = %s;
+"""
+
+WANT_STUDENT = """
+insert into "StudentStatus" VALUES(%s, %s, 'Ожидаемый');
+"""
+
+GET_ORGANIZATE_TO_WANT = """
+select o.id, o.name from "Organizate" o
+left join "StudentStatus" ss on ss.id_organizate = o.id and ss.id_user = %s
+where ss.status is null and o.id != (select u.org from "User" u where u.id = %s)
 """
