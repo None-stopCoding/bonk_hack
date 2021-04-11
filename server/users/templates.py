@@ -109,7 +109,13 @@ where u. = %s and u.role = 1
 """
 
 GET_WANTED_STUDENTS_ORGANIZATE = """
-select "id_user", (select "name" from "User" where "id" = "id_user"), (select "surname" from "User" where "id" = "id_user") from "StudentStatus" where "id_organizate" = (select "org" from "User" where "id" = %s) and "status" = 'Ожидаемый';
+select
+	u.id,
+	u.name,
+	u.surname,
+	u.second_name
+from "User" u
+join "StudentStatus" ss on ss.id_organizate = %s and ss.status = 'Ожидаемый'
 """
 
 
