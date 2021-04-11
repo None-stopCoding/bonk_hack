@@ -74,15 +74,16 @@ const ProjectItem = ({ item, status, reload, dialog }) => {
                     case 'Новые проекты': return [
                         {
                             name: 'Пригласить',
-                            action: () => {
+                            action: async () => {
                                 dialog.changeDialogContent('chooseStudentToInvite');
-                                dialog.open();
-
-                                return request('/api/project/pm/invite', 'POST', {
-                                    projectId: project.id,
-                                    studentId: dialog.result.studentId,
-                                    projectRole: dialog.result.projectRole
-                                })
+                                await dialog.open('chooseStudentToInvite', function (result) {
+                                    debugger;
+                                    request('/api/project/pm/invite', 'POST', {
+                                        projectId: project.id,
+                                        studentId: result.studentId,
+                                        projectRole: result.projectRole
+                                    });
+                                });
                             }
                         }, {
                             name: 'Передать',

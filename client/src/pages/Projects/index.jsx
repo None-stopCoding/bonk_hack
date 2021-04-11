@@ -106,7 +106,10 @@ const Projects = () => {
     const [projectOpen, setProjectOpen] = useState(false);
     const [curProject, setCurProject] = useState(null);
     const [openDialog, setOpenDialog] = useState(false);
+
     const [mentors, setMentors] = useState([]);
+    const [studentsWanted, setStudentsWanted] = useState([]);
+
     const [createForm, updateCreateProjectForm] = useState(defaultCreateForm);
 
     const [dialogContent, changeDialogContent] = useState('createProject');
@@ -115,6 +118,7 @@ const Projects = () => {
         title: '',
         titleAction: ''
     });
+    const [afterCloseAction, setAfterCloseAction] = useState(() => {});
 
     const changeCreateFormHandler = event => {
 		updateCreateProjectForm({ ...createForm, [event.target.name]: event.target.value })
@@ -123,14 +127,10 @@ const Projects = () => {
         setDialogResult({...dialogResult, [event.target.name]: event.target.value })
     };
 
-    const onDialogOpen = () => {
+    const onDialogOpen = async (content, afterCloseAction_) => {
         setOpenDialog(true);
+        setAfterCloseAction(afterCloseAction_);
         let data = [];
-
-        switch (dialogContent) {
-            case 'chooseStudentToInvite':
-
-        }
     };
     useEffect(() => {
         const config = {
@@ -179,6 +179,11 @@ const Projects = () => {
         getProjects();
     }, [value]);
 
+    useEffect(() => {
+        data = await request('/api/pm/student/wanted', 'POST', { userId: auth.userId });
+        setStudentsWanted(data);
+    }, [])
+
 
     const openProjectModal = async (project) => {
         const data = await request(`/api/project`, 'POST', {
@@ -203,10 +208,23 @@ const Projects = () => {
 
     const closeDialog = async () => {
         setOpenDialog(false);
+        debugger;
 
-        await request(`/api/project/create`, 'POST', {...createForm, userId: auth.userId});
-        getProjects();
-        updateCreateProjectForm(defaultCreateForm);
+        switch (dialogContent) {
+            case 'createProject':
+                await request(`/api/project/create`, 'POST', {...createForm, userId: auth.userId});
+                getProjects();
+                updateCreateProjectForm(defaultCreateForm);
+                break;
+            case 'chooseStudentToInvite':
+                if (afterCloseAction instanceof Function) {
+                    afterCloseAction(dialogResult);
+                    setAfterCloseAction(() => {});
+                }
+                setDialogResult({});
+                break;
+
+        }
     };
 
     return (
@@ -251,8 +269,7 @@ const Projects = () => {
                                         reload: getProjects,
                                         dialog: {
                                             changeDialogContent,
-                                            open: onDialogOpen,
-                                            result: dialogResult
+                                            open: onDialogOpen
                                         }
                                     },
                                 }}/>
@@ -312,14 +329,14 @@ const Projects = () => {
                             labelId="demo-simple-select-helper-label"
                             id="demo-simple-select-helper"
                             name="studentId"
-                            value={mentors.find((mentor) => mentor.id === createForm.mentor)?.name}
+                            value={studentsWanted.find((student) => student.id === dialogResult.studentId)?.name}
                             onChange={changeDialogResult}
                             >
                             {
-                                mentors.map((item, index) => <MenuItem value={item.id} key={index}>{`${item.surname} ${item.name} ${item.second_name}`}</MenuItem>)
+                                studentsWanted.map((item, index) => <MenuItem value={item.id} key={index}>{`${item.surname} ${item.name} ${item.second_name}`}</MenuItem>)
                             }
                             </Select>
-                            <FormHelperText>Выберите наставника проекта</FormHelperText>
+                            <FormHelperText>Выберите стулента дял участия в проекте</FormHelperText>
                         </FormControl>
                     </form> :
                 dialogContent === 'chooseUniversityToSendProject' ?
