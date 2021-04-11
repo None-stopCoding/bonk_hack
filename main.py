@@ -58,8 +58,8 @@ def get_students_all():
     params = request.get_json(force=True)
     return make_response(json.dumps(get_all_students()))
 
-@app.route('/api/project/student/invite', methods=["POST"])
-def project_accept_pls():
+@app.route('/api/project/pm/invite', methods=["POST"])
+def project_invite_pls():
     params = request.get_json(force=True)
     return make_response(json.dumps(add_student_to_project(params['userId'], params['projectId'], params['role'])))
 
@@ -70,15 +70,30 @@ def project_accept_pls():
 
 
 @app.route('/api/project/student/send', methods=["POST"])
-def project_accept_pls():
+def project_send_pls():
     params = request.get_json(force=True)
     return make_response(json.dumps(send_project(params['userId'], params['projectId'])))
 
 
 @app.route('/api/project/student/drop', methods=["POST"])
-def project_decline_pls():
+def project_drop_pls():
     params = request.get_json(force=True)
     return make_response(json.dumps(delete_student_to_project(params['userId'], params['projectId'])))
+
+@app.route('/api/project/pm/delete', methods=["POST"])
+def project_delete_pls():
+    params = request.get_json(force=True)
+    return make_response(json.dumps(delete_project(params['projectId'])))
+
+@app.route('/api/vus/all', methods=["POST"])
+def vus_pls():
+    params = request.get_json(force=True)
+    return make_response(json.dumps(get_all_vus()))
+
+@app.route('/api/project/pm/redirect', methods=["POST"])
+def project_redirect_pls():
+    params = request.get_json(force=True)
+    return make_response(json.dumps(send_to_vus(params['userId'], params['projectId'], params['vusId'])))
 
 
 
